@@ -1,0 +1,28 @@
+.wrapper-content {
+    padding: 16px;
+}
+
+.toolbar-produtos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.btn-add {
+    min-width: auto;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+mat-card {
+    padding: 16px;
+}
+
+mat-table {
+    width: 100%;
+}

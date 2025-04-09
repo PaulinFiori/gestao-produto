@@ -1,0 +1,21 @@
+<!-- Wrapper -->
+<div id="wrapper" style="display: flex; height: 100vh; overflow: hidden;">
+
+    <!-- Sidebar -->
+    <navigation></navigation>
+
+    <!-- Conteúdo principal -->
+    <div id="page-wrapper" class="gray-bg" style="display: flex; flex-direction: column; flex: 1;">
+
+        <!-- Conteúdo das rotas -->
+        <div style="flex: 1; overflow: auto;">
+            <router-outlet></router-outlet>
+        </div>
+
+        <!-- Rodapé fixo no final -->
+        <footer style="text-align: center;">
+            <strong>PauloFiori</strong> © 2025
+        </footer>
+
+    </div>
+</div>

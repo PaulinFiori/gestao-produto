@@ -1,0 +1,45 @@
+<div class="wrapper-content">
+    <mat-card>
+        <mat-toolbar color="primary" class="toolbar-produtos">
+            <span class="titulo-toolbar">Produtos</span>
+            <span class="spacer"></span>
+            <button mat-flat-button color="primary" (click)="abrirModalAdicionarProduto()">
+                + Adicionar Produto
+            </button>              
+        </mat-toolbar>
+
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+            <ng-container matColumnDef="nome">
+                <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+                <mat-cell *matCellDef="let produto"> {{ produto.nome }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="categoria">
+                <mat-header-cell *matHeaderCellDef> Categoria </mat-header-cell>
+                <mat-cell *matCellDef="let produto"> {{ produto.categoria }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="preco">
+                <mat-header-cell *matHeaderCellDef> Preço </mat-header-cell>
+                <mat-cell *matCellDef="let produto"> R$ {{ produto.preco | number:'1.2-2' }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="acoes">
+                <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+                <mat-cell *matCellDef="let produto">
+                    <button mat-icon-button color="accent" (click)="editarProduto(produto)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="excluirProduto(produto)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: colunas;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+    </mat-card>
+</div>

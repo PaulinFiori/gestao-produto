@@ -1,0 +1,137 @@
+<div class="wrapper-content">
+    <mat-card>
+        <mat-tab-group>
+            <!-- TIPO -->
+            <mat-tab label="Tipo">
+                <div class="aba-conteudo">
+                    <mat-toolbar color="primary" class="toolbar-cadastro">
+                        <span>Tipo</span>
+                        <span class="spacer"></span>
+                        <button mat-flat-button color="accent" class="btn-add">
+                            + Adicionar Tipo
+                        </button>
+                    </mat-toolbar>
+
+                    <mat-table [dataSource]="tipos" class="mat-elevation-z2">
+                        <ng-container matColumnDef="nome">
+                            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="acoes">
+                            <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
+                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="colunasCadastro"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: colunasCadastro;"></mat-row>
+                    </mat-table>
+                    <mat-paginator #paginatorTipos [pageSize]="10" [pageSizeOptions]="[10, 20, 30]"
+                        showFirstLastButtons></mat-paginator>
+                </div>
+            </mat-tab>
+
+            <!-- FABRICANTE -->
+            <mat-tab label="Fabricante">
+                <div class="aba-conteudo">
+                    <mat-toolbar color="primary" class="toolbar-cadastro">
+                        <span>Fabricante</span>
+                        <span class="spacer"></span>
+                        <button mat-flat-button color="accent" class="btn-add">
+                            + Adicionar Fabricante
+                        </button>
+                    </mat-toolbar>
+
+                    <mat-table [dataSource]="fabricantes" class="mat-elevation-z2">
+                        <ng-container matColumnDef="nome">
+                            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="acoes">
+                            <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
+                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="colunasCadastro"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: colunasCadastro;"></mat-row>
+                    </mat-table>
+                    <mat-paginator #paginatorFabricantes [pageSize]="10" [pageSizeOptions]="[10, 20, 30]"
+                        showFirstLastButtons></mat-paginator>
+                </div>
+            </mat-tab>
+
+            <!-- CIDADE -->
+            <mat-tab label="Cidade">
+                <div class="aba-conteudo">
+                    <mat-toolbar color="primary" class="toolbar-cadastro">
+                        <span>Cidade</span>
+                        <span class="spacer"></span>
+                        <button mat-flat-button color="accent" class="btn-add">
+                            + Adicionar Cidade
+                        </button>
+                    </mat-toolbar>
+
+                    <mat-table [dataSource]="cidades" class="mat-elevation-z2">
+                        <ng-container matColumnDef="nome">
+                            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="acoes">
+                            <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
+                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="colunasCadastro"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: colunasCadastro;"></mat-row>
+                    </mat-table>
+                    <mat-paginator #paginatorCidades [pageSize]="10" [pageSizeOptions]="[10, 20, 30]"
+                        showFirstLastButtons></mat-paginator>
+                </div>
+            </mat-tab>
+
+            <!-- ESTADO -->
+            <mat-tab label="Estado">
+                <div class="aba-conteudo">
+                    <mat-toolbar color="primary" class="toolbar-cadastro">
+                        <span>Estado</span>
+                        <span class="spacer"></span>
+                        <button mat-flat-button color="accent" class="btn-add">
+                            + Adicionar Estado
+                        </button>
+                    </mat-toolbar>
+
+                    <mat-table [dataSource]="estados" class="mat-elevation-z2">
+                        <ng-container matColumnDef="nome">
+                            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="acoes">
+                            <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
+                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="colunasCadastro"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: colunasCadastro;"></mat-row>
+                    </mat-table>
+                    <mat-paginator #paginatorEstados [pageSize]="10" [pageSizeOptions]="[10, 20, 30]"
+                        showFirstLastButtons></mat-paginator>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card>
+</div>
