@@ -15,9 +15,6 @@ export class ProdutosComponent implements OnInit, AfterViewInit {
   paginator!: MatPaginator;
   
   public colunas: string[] = ['nome', 'categoria', 'preco', 'acoes'];
-  public tipos: string[] = ['Eletrônicos', 'Móveis', 'Informática'];
-  public cidades: string[] = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte'];
-  public fabricantes: string[] = ['Samsung', 'LG', 'Dell'];
   public dataSource = new MatTableDataSource<any>();
 
   constructor(private dialog: MatDialog) {}
@@ -54,12 +51,7 @@ export class ProdutosComponent implements OnInit, AfterViewInit {
 
   abrirModalAdicionarProduto(): void {
     const dialogRef = this.dialog.open(ModalAdicionarProdutoComponent, {
-      width: '500px',
-      data: {
-        tipos: this.tipos,
-        cidades: this.cidades,
-        fabricantes: this.fabricantes
-      }
+      width: '500px'
     });
   
     dialogRef.afterClosed().subscribe(result => {

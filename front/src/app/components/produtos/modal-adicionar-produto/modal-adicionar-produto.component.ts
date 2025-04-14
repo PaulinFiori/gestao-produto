@@ -4,14 +4,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-modal-adicionar-produto',
-    templateUrl: './modal-adicionar-produto.component.html'
+    templateUrl: './modal-adicionar-produto.component.html',
+    styleUrls: ['./modal-adicionar-produto.component.scss']
 })
 export class ModalAdicionarProdutoComponent {
     form: FormGroup;
 
-    tipos: any[] = [];
-    cidades: any[] = [];
-    fabricantes: any[] = [];
+    public tipos: string[] = ['Eletrônicos', 'Móveis', 'Informática'];
+    public cidades: string[] = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte'];
+    public fabricantes: string[] = ['Samsung', 'LG', 'Dell'];
 
     constructor(
         private fb: FormBuilder,
