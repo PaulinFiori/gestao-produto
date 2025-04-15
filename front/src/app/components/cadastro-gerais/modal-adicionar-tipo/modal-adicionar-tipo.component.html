@@ -1,0 +1,13 @@
+<form [formGroup]="form" (ngSubmit)="salvar()" class="form-container">
+    <h2>Adicionar Tipo</h2>
+
+    <mat-form-field appearance="fill" class="full-width d-block">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" required />
+    </mat-form-field>
+
+    <div class="actions">
+        <button mat-button type="button" (click)="cancelar()">Cancelar</button>
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+    </div>
+</form>

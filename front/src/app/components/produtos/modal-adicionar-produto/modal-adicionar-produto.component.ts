@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     templateUrl: './modal-adicionar-produto.component.html',
     styleUrls: ['./modal-adicionar-produto.component.scss']
 })
-export class ModalAdicionarProdutoComponent {
+export class ModalAdicionarProdutoComponent implements OnInit {
     form: FormGroup;
 
     public tipos: string[] = ['Eletrônicos', 'Móveis', 'Informática'];
@@ -29,6 +29,9 @@ export class ModalAdicionarProdutoComponent {
         });
     }
 
+    ngOnInit(): void {
+    }
+
     cancelar(): void {
         this.dialogRef.close();
     }
@@ -38,4 +41,5 @@ export class ModalAdicionarProdutoComponent {
             this.dialogRef.close(this.form.value);
         }
     }
+    
 }

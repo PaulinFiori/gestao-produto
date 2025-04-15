@@ -4,14 +4,15 @@
         <mat-toolbar color="primary">Menu</mat-toolbar>
 
         <mat-nav-list>
-            <a mat-list-item *ngFor="let item of menu"
-               [routerLink]="item.path"
-               routerLinkActive="active-link"
-               (click)="isSmallScreen && drawer.close()">
-              
-              <mat-icon>{{ item.icon }}</mat-icon>
-              <span>{{ item.label }}</span>
-              
+            <a mat-list-item class="menu-item"
+                *ngFor="let item of menu"
+                [routerLink]="item.path"
+                routerLinkActive="active-link"
+                (click)="isSmallScreen && drawer.close()">
+
+                <mat-icon>{{ item.icon }}</mat-icon>
+                <span>{{ item.label }}</span>
+
             </a>
         </mat-nav-list>
     </mat-sidenav>
