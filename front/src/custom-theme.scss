@@ -1,0 +1,71 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Definir paleta de cores principal (azul escuro)
+$primary-palette: (
+  50: #e6e9ed,
+  100: #c0c8d2,
+  200: #97a4b4,
+  300: #6d8096,
+  400: #4c6480,
+  500: #2c3e50, // Cor principal do sidenav
+  600: #273848,
+  700: #21303e,
+  800: #1b2834,
+  900: #141e2a,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+// Definir paleta de cores de destaque
+$accent-palette: (
+  50: #e3f2fd,
+  100: #bbdefb,
+  200: #90caf9,
+  300: #64b5f6,
+  400: #42a5f5,
+  500: #2196f3,
+  600: #1e88e5,
+  700: #1976d2,
+  800: #1565c0,
+  900: #0d47a1,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+// Criar o tema personalizado
+$primary: mat.define-palette($primary-palette, 500);
+$accent: mat.define-palette($accent-palette, 500);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+// Aplicar o tema aos componentes do Angular Material
+@include mat.all-component-themes($theme); 

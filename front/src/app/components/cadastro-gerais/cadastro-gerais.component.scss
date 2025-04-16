@@ -1,9 +1,15 @@
 .wrapper-content {
     padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .aba-conteudo {
     padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .toolbar-cadastro {
@@ -11,6 +17,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
+    background-color: #2c3e50 !important; /* Mesma cor do sidenav */
 }
 
 .spacer {
@@ -21,12 +28,61 @@
     min-width: auto;
     white-space: nowrap;
     font-weight: 500;
+    background-color: #2c3e50 !important; /* Mesma cor do sidenav */
 }
 
 mat-card {
     padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+::ng-deep .mat-mdc-tab-group {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+::ng-deep .mat-mdc-tab-body-wrapper {
+    flex: 1;
+    height: 100%;
+}
+
+::ng-deep .mat-mdc-tab-body-content {
+    height: 100%;
 }
 
 mat-table {
     width: 100%;
+    flex: 1;
+}
+
+/* Substituir cor roxa pelo azul escuro do sidenav */
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: #2c3e50 !important;
+}
+
+::ng-deep .mat-mdc-tab-header .mat-mdc-tab-header-pagination-chevron {
+    border-color: #2c3e50 !important;
+}
+
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-tab-header .mat-mdc-tab-header-pagination-chevron {
+    border-color: #2c3e50;
+}
+
+::ng-deep .mat-mdc-tab-header .mat-ripple-element,
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-tab-header-pagination .mat-ripple-element,
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-tab-header .mat-ripple-element,
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-tab-link-container .mat-ripple-element {
+    background-color: rgba(44, 62, 80, 0.12) !important;
+}
+
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-ink-bar {
+    background-color: #2c3e50 !important;
 }

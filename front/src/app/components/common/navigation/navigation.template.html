@@ -1,19 +1,44 @@
-<mat-sidenav-container class="sidenav-container">
-    <!-- Sidebar -->
-    <mat-sidenav #drawer class="sidenav" [mode]="isSmallScreen ? 'over' : 'side'" [opened]="!isSmallScreen">
-        <mat-toolbar color="primary">Menu</mat-toolbar>
+<div class="sidenav-container" [class.expanded-sidenav-open]="showExpandedSidenav">
+    <!-- Sidebar Colapsada/Icone -->
+    <div class="icon-sidenav">
+        <div class="logo-container">
+            <div class="logo">A</div>
+        </div>
+        <div class="icon-menu">
+            <a class="icon-menu-item" *ngFor="let item of menu" 
+               [routerLink]="item.path" 
+               routerLinkActive="active-link"
+               (click)="expandSidenav(item); $event.preventDefault()">
+                <mat-icon class="white-icon">{{ item.icon }}</mat-icon>
+            </a>
+        </div>
+    </div>
 
-        <mat-nav-list>
+    <!-- Sidebar Expandida/Detalhes -->
+    <div class="expanded-sidenav" *ngIf="showExpandedSidenav">
+        <div class="expanded-header">
+            <div class="logo">A</div>
+            <span class="white-text">Angular</span>
+            <button mat-icon-button (click)="closeExpandedSidenav()">
+                <mat-icon class="white-icon">close</mat-icon>
+            </button>
+        </div>
+        
+        <mat-nav-list class="nav-list-custom">
             <a mat-list-item class="menu-item"
                 *ngFor="let item of menu"
                 [routerLink]="item.path"
-                routerLinkActive="active-link"
-                (click)="isSmallScreen && drawer.close()">
-
-                <mat-icon>{{ item.icon }}</mat-icon>
-                <span>{{ item.label }}</span>
-
+                routerLinkActive="active-link">
+                <mat-icon class="white-icon">{{ item.icon }}</mat-icon>
+                <span class="white-text menu-text">{{ item.label }}</span>
             </a>
         </mat-nav-list>
-    </mat-sidenav>
-</mat-sidenav-container>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <div class="content-container">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>
