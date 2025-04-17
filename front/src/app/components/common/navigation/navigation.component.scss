@@ -11,13 +11,12 @@
     flex-direction: column;
     width: 100%;
     flex: 1;
-    margin-left: 70px; /* Largura do sidenav colapsado */
+    margin-left: 70px;
     transition: margin-left 0.3s ease;
 }
 
-/* Ajustar quando o sidenav expandido está aberto */
 .expanded-sidenav-open .main-content {
-    margin-left: 310px; /* Largura do sidenav colapsado + expandido */
+    margin-left: 310px;
 }
 
 .content-container {
@@ -31,7 +30,6 @@
     background-color: rgba(255, 255, 255, 0.08);
 }
 
-// Classes para garantir a cor branca
 .white-icon {
     color: white !important;
 }
@@ -102,7 +100,6 @@
     }
 }
 
-// Sidenav colapsado (apenas ícones)
 .icon-sidenav {
     width: 70px;
     background-color: #2c3e50;
@@ -166,7 +163,6 @@
     }
 }
 
-// Sidenav expandido
 .expanded-sidenav {
     width: 240px;
     background-color: #2c3e50;
@@ -214,12 +210,10 @@
     }
 }
 
-// Estilo dos itens de menu
 mat-nav-list {
     padding-top: 0;
 }
 
-// Conteúdo principal
 .main-content {
     flex: 1;
     background-color: #f5f5f5;
@@ -230,7 +224,6 @@ mat-nav-list {
     color: white !important;
 }
 
-// Sobrescrever estilos do Angular Material
 ::ng-deep .mat-list-base {
     padding-top: 0 !important;
 }
@@ -244,7 +237,6 @@ mat-nav-list {
     color: white !important;
 }
 
-// Forçar cores brancas para os itens do menu
 ::ng-deep .expanded-sidenav .mat-list-item-content {
     color: white !important;
 }
@@ -257,7 +249,6 @@ mat-nav-list {
     color: white !important;
 }
 
-// Remover foco com cor padrão do Material
 ::ng-deep .mat-list-item:focus {
     background-color: rgba(255, 255, 255, 0.1) !important;
 }

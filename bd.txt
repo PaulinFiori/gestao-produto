@@ -1,0 +1,39 @@
+-- 1 - Criando database
+create database gestao;
+
+-- 2 - Criando tabela;
+Create table estado(
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    abreviacao VARCHAR(4) NOT NULL,
+    PRIMARY KEY(id));
+
+Create table cidade(
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    estado_id INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY (estado_id) REFERENCES estado(id));
+
+Create table tipo(
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id));
+
+Create table fabricante(
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id));
+
+Create table produto(
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    valor VARCHAR(50),
+    estoque VARCHAR(50),
+    cidade_id INTEGER NOT NULL,
+    tipo_id INTEGER NOT NULL,
+    fabricante_id INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY (cidade_id) REFERENCES cidade(id),
+    FOREIGN KEY (tipo_id) REFERENCES tipo(id),
+    FOREIGN KEY (fabricante_id) REFERENCES fabricante(id));

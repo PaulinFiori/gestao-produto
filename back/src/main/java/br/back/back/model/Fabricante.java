@@ -2,6 +2,7 @@ package br.back.back.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "fabricante")
@@ -13,8 +14,11 @@ public class Fabricante implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false, unique = true)
+    @Column(name = "nome", nullable = false, length = 50)
     private String nome;
+    
+    @OneToMany(mappedBy = "fabricante")
+    private List<Produto> produtos;
     
     public Fabricante() {
     }
@@ -38,6 +42,14 @@ public class Fabricante implements Serializable {
     
     public void setNome(String nome) {
         this.nome = nome;
+    }
+    
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+    
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
     
     @Override

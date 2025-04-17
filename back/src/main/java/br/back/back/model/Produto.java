@@ -2,7 +2,6 @@ package br.back.back.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "produto")
@@ -14,22 +13,22 @@ public class Produto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
+    @Column(name = "nome", nullable = false, length = 50)
     private String nome;
     
-    @Column(nullable = false)
-    private BigDecimal valor;
+    @Column(name = "valor", length = 50)
+    private String valor;
     
-    @Column(nullable = false)
-    private Integer estoque;
-    
-    @ManyToOne
-    @JoinColumn(name = "tipo_id", nullable = false)
-    private Tipo tipo;
+    @Column(name = "estoque", length = 50)
+    private String estoque;
     
     @ManyToOne
     @JoinColumn(name = "cidade_id", nullable = false)
     private Cidade cidade;
+    
+    @ManyToOne
+    @JoinColumn(name = "tipo_id", nullable = false)
+    private Tipo tipo;
     
     @ManyToOne
     @JoinColumn(name = "fabricante_id", nullable = false)
@@ -38,13 +37,13 @@ public class Produto implements Serializable {
     public Produto() {
     }
     
-    public Produto(Long id, String nome, BigDecimal valor, Integer estoque, Tipo tipo, Cidade cidade, Fabricante fabricante) {
+    public Produto(Long id, String nome, String valor, String estoque, Cidade cidade, Tipo tipo, Fabricante fabricante) {
         this.id = id;
         this.nome = nome;
         this.valor = valor;
         this.estoque = estoque;
-        this.tipo = tipo;
         this.cidade = cidade;
+        this.tipo = tipo;
         this.fabricante = fabricante;
     }
     
@@ -64,28 +63,20 @@ public class Produto implements Serializable {
         this.nome = nome;
     }
     
-    public BigDecimal getValor() {
+    public String getValor() {
         return valor;
     }
     
-    public void setValor(BigDecimal valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
     
-    public Integer getEstoque() {
+    public String getEstoque() {
         return estoque;
     }
     
-    public void setEstoque(Integer estoque) {
+    public void setEstoque(String estoque) {
         this.estoque = estoque;
-    }
-    
-    public Tipo getTipo() {
-        return tipo;
-    }
-    
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
     }
     
     public Cidade getCidade() {
@@ -94,6 +85,14 @@ public class Produto implements Serializable {
     
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
+    }
+    
+    public Tipo getTipo() {
+        return tipo;
+    }
+    
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
     }
     
     public Fabricante getFabricante() {

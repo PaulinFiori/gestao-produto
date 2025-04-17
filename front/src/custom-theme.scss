@@ -2,14 +2,13 @@
 
 @include mat.core();
 
-// Definir paleta de cores principal (azul escuro)
 $primary-palette: (
   50: #e6e9ed,
   100: #c0c8d2,
   200: #97a4b4,
   300: #6d8096,
   400: #4c6480,
-  500: #2c3e50, // Cor principal do sidenav
+  500: #2c3e50,
   600: #273848,
   700: #21303e,
   800: #1b2834,
@@ -28,7 +27,6 @@ $primary-palette: (
   )
 );
 
-// Definir paleta de cores de destaque
 $accent-palette: (
   50: #e3f2fd,
   100: #bbdefb,

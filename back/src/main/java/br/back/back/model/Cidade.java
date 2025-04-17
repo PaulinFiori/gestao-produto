@@ -2,6 +2,7 @@ package br.back.back.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "cidade")
@@ -13,8 +14,15 @@ public class Cidade implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false, unique = true)
+    @Column(name = "nome", nullable = false, length = 50)
     private String nome;
+    
+    @ManyToOne
+    @JoinColumn(name = "estado_id", nullable = false)
+    private Estado estado;
+    
+    @OneToMany(mappedBy = "cidade")
+    private List<Produto> produtos;
     
     public Cidade() {
     }
@@ -38,6 +46,22 @@ public class Cidade implements Serializable {
     
     public void setNome(String nome) {
         this.nome = nome;
+    }
+    
+    public Estado getEstado() {
+        return estado;
+    }
+    
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+    
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+    
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
     
     @Override
