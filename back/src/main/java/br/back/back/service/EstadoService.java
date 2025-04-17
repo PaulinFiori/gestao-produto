@@ -33,7 +33,7 @@ public class EstadoService {
         if (estadoExistente.isPresent()) {
             Estado estado = estadoExistente.get();
             estado.setNome(estadoAtualizado.getNome());
-            estado.setSigla(estadoAtualizado.getSigla());
+            estado.setAbreviacao(estadoAtualizado.getAbreviacao());
             return Optional.of(estadoRepository.save(estado));
         }
         

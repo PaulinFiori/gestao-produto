@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/estados")
+@RequestMapping("/estados")
 public class EstadoController {
 
     @Autowired
