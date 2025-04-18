@@ -6,6 +6,13 @@
         <input matInput formControlName="nome" required />
     </mat-form-field>
 
+    <mat-form-field appearance="fill" class="full-width d-block">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado" required>
+            <mat-option *ngFor="let estado of estados" [value]="estado">{{ estado.nome }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <div class="actions">
         <button mat-button type="button" (click)="cancelar()">Cancelar</button>
         <button mat-raised-button color="primary" type="submit">Salvar</button>

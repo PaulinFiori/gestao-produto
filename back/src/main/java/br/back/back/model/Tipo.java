@@ -3,6 +3,7 @@ package br.back.back.model;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tipo")
@@ -17,7 +18,8 @@ public class Tipo implements Serializable {
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
     
-    @OneToMany(mappedBy = "tipo")
+    @OneToMany(mappedBy = "tipo", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("tipo")
     private List<Produto> produtos;
     
     public Tipo() {

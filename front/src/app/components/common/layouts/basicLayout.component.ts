@@ -10,5 +10,9 @@ declare var jQuery: any;
   }
 })
 export class BasicLayoutComponent {
-  constructor( ) { }
+  constructor() { }
+
+  onResize() {
+    // Handle window resize event
+  }
 }

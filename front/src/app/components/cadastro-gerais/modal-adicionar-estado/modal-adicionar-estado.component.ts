@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CrudService } from '../../../services/crud.service';
 
 @Component({
     selector: 'app-modal-adicionar-estado',
@@ -14,10 +15,12 @@ export class ModalAdicionarEstadoComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<ModalAdicionarEstadoComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private crudService: CrudService
     ) {
         this.form = this.fb.group({
-            nome: ['', Validators.required]
+            nome: ['', Validators.required],
+            abreviacao: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]]
         });
     }
 
@@ -30,7 +33,14 @@ export class ModalAdicionarEstadoComponent implements OnInit {
 
     salvar(): void {
         if (this.form.valid) {
-            this.dialogRef.close(this.form.value);
+            this.crudService.post('estados', this.form.value).subscribe({
+                next: (response) => {
+                    this.dialogRef.close(response);
+                },
+                error: (error) => {
+                    console.error('Erro ao salvar estado:', error);
+                }
+            });
         }
     }
     

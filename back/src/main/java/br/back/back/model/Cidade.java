@@ -3,6 +3,7 @@ package br.back.back.model;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "cidade")
@@ -17,11 +18,13 @@ public class Cidade implements Serializable {
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id", nullable = false)
+    @JsonIgnoreProperties({"cidades", "hibernateLazyInitializer", "handler"})
     private Estado estado;
     
-    @OneToMany(mappedBy = "cidade")
+    @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"cidade", "hibernateLazyInitializer", "handler"})
     private List<Produto> produtos;
     
     public Cidade() {

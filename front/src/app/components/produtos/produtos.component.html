@@ -15,14 +15,19 @@
                     <mat-cell *matCellDef="let produto"> {{ produto.nome }} </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="categoria">
-                    <mat-header-cell *matHeaderCellDef> Categoria </mat-header-cell>
-                    <mat-cell *matCellDef="let produto"> {{ produto.categoria }} </mat-cell>
+                <ng-container matColumnDef="fabricante">
+                    <mat-header-cell *matHeaderCellDef> Fabricante </mat-header-cell>
+                    <mat-cell *matCellDef="let produto"> {{ produto.fabricante.nome }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="tipo">
+                    <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+                    <mat-cell *matCellDef="let produto"> {{ produto.tipo.nome }} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="preco">
                     <mat-header-cell *matHeaderCellDef> Preço </mat-header-cell>
-                    <mat-cell *matCellDef="let produto"> R$ {{ produto.preco | number:'1.2-2' }} </mat-cell>
+                    <mat-cell *matCellDef="let produto"> R$ {{ produto.valor | number:'1.2-2' }} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="acoes">

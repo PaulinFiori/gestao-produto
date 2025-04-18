@@ -2,6 +2,8 @@ package br.back.back.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "produto")
@@ -16,28 +18,31 @@ public class Produto implements Serializable {
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
     
-    @Column(name = "valor", length = 50)
-    private String valor;
+    @Column(name = "valor", nullable = false, precision = 10, scale = 2)
+    private BigDecimal valor;
     
-    @Column(name = "estoque", length = 50)
-    private String estoque;
+    @Column(name = "estoque", nullable = false)
+    private Integer estoque;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cidade_id", nullable = false)
+    @JsonIgnoreProperties({"produtos"})
     private Cidade cidade;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipo_id", nullable = false)
+    @JsonIgnoreProperties({"produtos"})
     private Tipo tipo;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fabricante_id", nullable = false)
+    @JsonIgnoreProperties({"produtos"})
     private Fabricante fabricante;
     
     public Produto() {
     }
     
-    public Produto(Long id, String nome, String valor, String estoque, Cidade cidade, Tipo tipo, Fabricante fabricante) {
+    public Produto(Long id, String nome, BigDecimal valor, Integer estoque, Cidade cidade, Tipo tipo, Fabricante fabricante) {
         this.id = id;
         this.nome = nome;
         this.valor = valor;
@@ -63,19 +68,19 @@ public class Produto implements Serializable {
         this.nome = nome;
     }
     
-    public String getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
     
-    public void setValor(String valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
     
-    public String getEstoque() {
+    public Integer getEstoque() {
         return estoque;
     }
     
-    public void setEstoque(String estoque) {
+    public void setEstoque(Integer estoque) {
         this.estoque = estoque;
     }
     

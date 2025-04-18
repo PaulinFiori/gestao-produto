@@ -4,41 +4,48 @@
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Nome</mat-label>
         <input matInput formControlName="nome" required />
+        <mat-error *ngIf="form.get('nome')?.errors?.['required']">Nome é obrigatório</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Valor</mat-label>
-        <input matInput formControlName="valor" required currencyMask />
+        <input matInput formControlName="valor" required mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
+        <mat-error *ngIf="form.get('valor')?.errors?.['required']">Valor é obrigatório</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Estoque</mat-label>
-        <input matInput type="number" formControlName="estoque" required />
+        <input matInput type="number" formControlName="estoque" required min="0" />
+        <mat-error *ngIf="form.get('estoque')?.errors?.['required']">Estoque é obrigatório</mat-error>
+        <mat-error *ngIf="form.get('estoque')?.errors?.['min']">Estoque não pode ser negativo</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Tipo</mat-label>
         <mat-select formControlName="tipo" required>
-            <mat-option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo }}</mat-option>
+            <mat-option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo.nome }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('tipo')?.errors?.['required']">Tipo é obrigatório</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Cidade</mat-label>
         <mat-select formControlName="cidade" required>
-            <mat-option *ngFor="let cidade of cidades" [value]="cidade">{{ cidade }}</mat-option>
+            <mat-option *ngFor="let cidade of cidades" [value]="cidade">{{ cidade.nome }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('cidade')?.errors?.['required']">Cidade é obrigatória</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Fabricante</mat-label>
         <mat-select formControlName="fabricante" required>
-            <mat-option *ngFor="let fabricante of fabricantes" [value]="fabricante">{{ fabricante }}</mat-option>
+            <mat-option *ngFor="let fabricante of fabricantes" [value]="fabricante">{{ fabricante.nome }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('fabricante')?.errors?.['required']">Fabricante é obrigatório</mat-error>
     </mat-form-field>
 
     <div class="actions">
         <button mat-button type="button" (click)="cancelar()">Cancelar</button>
-        <button mat-raised-button color="primary" type="submit">Salvar</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Salvar</button>
     </div>
 </form>

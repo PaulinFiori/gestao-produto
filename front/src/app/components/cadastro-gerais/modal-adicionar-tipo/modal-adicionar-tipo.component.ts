@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CrudService } from '../../../services/crud.service';
+import { Tipo } from '../../../models/tipo.model';
 
 @Component({
     selector: 'app-modal-adicionar-tipo',
@@ -14,7 +16,8 @@ export class ModalAdicionarTipoComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<ModalAdicionarTipoComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private crudService: CrudService
     ) {
         this.form = this.fb.group({
             nome: ['', Validators.required]
@@ -30,7 +33,15 @@ export class ModalAdicionarTipoComponent implements OnInit {
 
     salvar(): void {
         if (this.form.valid) {
-            this.dialogRef.close(this.form.value);
+            const tipo = new Tipo(this.form.value);
+            this.crudService.post<Tipo>('tipos', tipo).subscribe({
+                next: (response) => {
+                    this.dialogRef.close(response);
+                },
+                error: (error) => {
+                    console.error('Erro ao salvar tipo:', error);
+                }
+            });
         }
     }
 }

@@ -12,11 +12,16 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { ProdutosModule } from './components/produtos/produtos.module';
 import { CadastroGeraisModule } from './components/cadastro-gerais/cadastro-gerais.module';
+import { HttpClientModule } from '@angular/common/http';
+import { CrudService } from './services/crud.service';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
@@ -24,12 +29,22 @@ import { CadastroGeraisModule } from './components/cadastro-gerais/cadastro-gera
     MatButtonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
+    NgxMaskDirective,
+    NgxMaskPipe,
     LayoutsModule,
     HomeModule,
     ProdutosModule,
     CadastroGeraisModule
   ],
-  providers: [],
+  providers: [
+    CrudService,
+    provideNgxMask()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

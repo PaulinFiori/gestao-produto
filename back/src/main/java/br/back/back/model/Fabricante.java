@@ -3,6 +3,7 @@ package br.back.back.model;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "fabricante")
@@ -17,7 +18,8 @@ public class Fabricante implements Serializable {
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
     
-    @OneToMany(mappedBy = "fabricante")
+    @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("fabricante")
     private List<Produto> produtos;
     
     public Fabricante() {

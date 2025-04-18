@@ -3,6 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalAdicionarProdutoComponent } from './modal-adicionar-produto/modal-adicionar-produto.component';
+import { CrudService } from '../../services/crud.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-produtos',
@@ -14,10 +16,14 @@ export class ProdutosComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) 
   paginator!: MatPaginator;
   
-  public colunas: string[] = ['nome', 'categoria', 'preco', 'acoes'];
+  public colunas: string[] = ['nome', 'fabricante', 'tipo', 'preco', 'acoes'];
   public dataSource = new MatTableDataSource<any>();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private crudService: CrudService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.carregarProdutos();
@@ -28,13 +34,15 @@ export class ProdutosComponent implements OnInit, AfterViewInit {
   }
 
   carregarProdutos() {
-    const produtos = [
-      { nome: 'Notebook', categoria: 'Informática', preco: 4500 },
-      { nome: 'Celular', categoria: 'Eletrônicos', preco: 2500 },
-      { nome: 'Cadeira Gamer', categoria: 'Móveis', preco: 1200 },
-    ];
-
-    this.dataSource.data = produtos;
+    this.crudService.get<any[]>('produtos').subscribe({
+      next: (produtos) => {
+        this.dataSource.data = produtos;
+      },
+      error: (error) => {
+        this.toastr.error('Erro ao carregar produtos');
+        console.error('Erro ao carregar produtos:', error);
+      }
+    });
   }
 
   adicionarProduto() {
@@ -56,7 +64,8 @@ export class ProdutosComponent implements OnInit, AfterViewInit {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Produto adicionado:', result);
+        this.toastr.success('Produto adicionado com sucesso!');
+        this.carregarProdutos();
       }
     });
   }
