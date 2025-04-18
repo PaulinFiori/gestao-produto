@@ -1,29 +1,70 @@
 .sidenav-container {
-    height: 100vh;
     display: flex;
+    min-height: 100vh;
     width: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 .main-content {
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
     flex: 1;
-    margin-left: 70px;
-    transition: margin-left 0.3s ease;
-}
-
-.expanded-sidenav-open .main-content {
-    margin-left: 310px;
-}
-
-.content-container {
-    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
+    transition: padding-left 0.3s ease;
+    padding-left: 250px;
+    position: relative;
+    background-color: #f5f5f5;
+    
+    &:not(.menu-open) {
+        padding-left: 0;
+    }
+
+    .content-container {
+        flex: 1;
+        width: 100%;
+        height: calc(100vh - 40px); // 40px é o padding total (20px top + 20px bottom)
+        overflow-y: auto;
+    }
+}
+
+.expanded-sidenav {
+    width: 250px;
+    background-color: #2c3e50;
+    height: 100vh;
+    transition: transform 0.3s ease;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    
+    &.hidden {
+        transform: translateX(-250px);
+    }
+}
+
+.expanded-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: darken(#2c3e50, 5%);
+    
+    .logo {
+        width: 32px;
+        height: 32px;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+    }
+    
+    .white-text {
+        color: white;
+        flex-grow: 1;
+    }
 }
 
 .active-link {
@@ -31,7 +72,7 @@
 }
 
 .white-icon {
-    color: white !important;
+    color: white;
 }
 
 .white-text {
@@ -43,216 +84,123 @@
 }
 
 .nav-list-custom {
-    padding: 0;
-}
-
-::ng-deep .nav-list-custom .mat-list-item-content {
-    color: white !important;
-}
-
-::ng-deep a.mat-list-item {
-    display: flex !important;
-    align-items: center !important;
-    height: 48px;
-}
-
-::ng-deep a.mat-list-item .mat-icon {
-    font-size: 20px !important;
-    width: 24px;
-    height: 24px;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-::ng-deep a.mat-list-item span {
-    display: flex;
-    align-items: center;
-    height: 24px;
-}
-
-::ng-deep .mat-icon {
-    line-height: 1 !important;
-}
-
-.menu-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white !important;
-    height: 48px;
-  
-    mat-icon {
-        font-size: 24px;
-        line-height: 1;
-        color: white !important;
-    }
-  
-    span {
-        line-height: 1;
-        position: relative;
-        top: -7px;
-        color: white !important;
-    }
-    
-    &.active-link {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-}
-
-.icon-sidenav {
-    width: 70px;
-    background-color: #2c3e50;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 10;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.logo-container {
-    padding: 16px 0;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logo {
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    color: #2c3e50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-    border-radius: 4px;
-}
-
-.icon-menu {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 16px;
-}
-
-.icon-menu-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    color: white;
-    text-decoration: none;
-    transition: background-color 0.3s;
-
-    &:hover, &.active-link {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    mat-icon {
-        font-size: 24px;
-        color: white !important;
-    }
-}
-
-.expanded-sidenav {
-    width: 240px;
-    background-color: #2c3e50;
-    color: white;
-    position: fixed;
-    top: 0;
-    left: 70px;
-    bottom: 0;
-    z-index: 9;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-.expanded-header {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    
-    .logo {
-        margin-right: 16px;
-    }
-    
-    span {
-        flex: 1;
-        font-size: 18px;
-        font-weight: 500;
-        color: white !important;
-    }
-    
-    button {
-        color: white !important;
-    }
-}
-
-mat-nav-list {
     padding-top: 0;
 }
 
-.main-content {
-    flex: 1;
-    background-color: #f5f5f5;
+.menu-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    color: white;
+    height: 48px;
+    padding: 0 16px;
+    
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &.active-link {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .white-icon {
+        color: white;
+        margin-right: 12px;
+    }
+    
+    .menu-text {
+        color: white;
+    }
 }
 
-::ng-deep .mat-list-item-content {
-    padding: 0 16px !important;
-    color: white !important;
+.menu-toggle-button {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 999;
+    background-color: #2c3e50;
+    color: white;
+    
+    &:not(.menu-open) {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
 }
 
-::ng-deep .mat-list-base {
-    padding-top: 0 !important;
+@media (max-width: 600px) {
+    .main-content {
+        padding-left: 0;
+    }
+    
+    .expanded-sidenav {
+        position: fixed;
+        z-index: 1000;
+    }
 }
 
-::ng-deep .mat-list-base .mat-list-item {
-    height: 48px !important;
-    color: white !important;
+::ng-deep {
+    .mat-list-base {
+        padding-top: 0 !important;
+    }
+
+    .mat-list-item {
+        height: 48px !important;
+    }
+
+    a.mat-list-item {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        padding: 0 16px !important;
+        text-decoration: none !important;
+        height: 48px !important;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        &.active-link {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .mat-icon {
+            color: white !important;
+            margin-right: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+    }
+
+    .mat-list-item-content {
+        padding: 0 !important;
+    }
 }
 
-::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
-    color: white !important;
+.menu-label-adjust {
+    display: inline-block !important;
+    position: relative !important;
+    top: -4px !important;
 }
 
-::ng-deep .expanded-sidenav .mat-list-item-content {
-    color: white !important;
+::ng-deep .menu-label-adjust {
+    display: inline-block !important;
+    position: relative !important;
+    top: -4px !important;
 }
 
-::ng-deep .expanded-sidenav .mat-list-item-content .mat-icon {
-    color: white !important;
+::ng-deep span.white-text.menu-text.menu-label-adjust {
+    display: inline-block !important;
+    position: relative !important;
+    top: -4px !important;
 }
 
-::ng-deep .expanded-sidenav .mat-list-item-content span {
-    color: white !important;
-}
-
-::ng-deep .mat-list-item:focus {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-::ng-deep .mat-list-item-ripple {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+.expanded-sidenav {
+    mat-nav-list.nav-list-custom {
+        a.mat-list-item {
+            span.white-text.menu-text {
+                transform: translateY(5px) !important;
+                display: block !important;
+            }
+        }
+    }
 }

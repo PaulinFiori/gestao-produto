@@ -1,5 +1,4 @@
-import { Component, OnInit, Renderer2 } from "@angular/core";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { MENU } from "src/app/models/menu/menu";
 import { MenuItem } from "src/app/models/menu/item-menu.model";
@@ -14,13 +13,11 @@ export class NavigationComponent implements OnInit {
     
     public menu: MenuItem[] = [];
     public isSmallScreen: boolean = false;
-    public showExpandedSidenav: boolean = false;
-    public selectedItem: MenuItem | null = null;
+    public showExpandedSidenav: boolean = true;
 
     constructor(
         private breakpointObserver: BreakpointObserver,
-        private router: Router,
-        private renderer: Renderer2
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -28,26 +25,13 @@ export class NavigationComponent implements OnInit {
 
         this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
             this.isSmallScreen = result.matches;
+            if (this.isSmallScreen) {
+                this.showExpandedSidenav = false;
+            }
         });
     }
 
-    expandSidenav(item: MenuItem): void {
-        // Se for tela pequena, navegue diretamente
-        if (this.isSmallScreen) {
-            this.router.navigate([item.path]);
-            return;
-        }
-        
-        this.selectedItem = item;
-        this.showExpandedSidenav = true;
-        
-        // Navegar para a rota do item
-        setTimeout(() => {
-            this.router.navigate([item.path]);
-        }, 100);
-    }
-
-    closeExpandedSidenav(): void {
-        this.showExpandedSidenav = false;
+    toggleSidenav(): void {
+        this.showExpandedSidenav = !this.showExpandedSidenav;
     }
 }

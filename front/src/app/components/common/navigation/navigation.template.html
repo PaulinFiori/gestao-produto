@@ -1,26 +1,11 @@
-<div class="sidenav-container" [class.expanded-sidenav-open]="showExpandedSidenav">
-    <!-- Sidebar Colapsada/Icone -->
-    <div class="icon-sidenav">
-        <div class="logo-container">
-            <div class="logo">A</div>
-        </div>
-        <div class="icon-menu">
-            <a class="icon-menu-item" *ngFor="let item of menu" 
-               [routerLink]="item.path" 
-               routerLinkActive="active-link"
-               (click)="expandSidenav(item); $event.preventDefault()">
-                <mat-icon class="white-icon">{{ item.icon }}</mat-icon>
-            </a>
-        </div>
-    </div>
-
-    <!-- Sidebar Expandida/Detalhes -->
-    <div class="expanded-sidenav" *ngIf="showExpandedSidenav">
+<div class="sidenav-container">
+    <!-- Sidebar Menu -->
+    <div class="expanded-sidenav" [class.hidden]="!showExpandedSidenav">
         <div class="expanded-header">
-            <div class="logo">A</div>
-            <span class="white-text">Angular</span>
-            <button mat-icon-button (click)="closeExpandedSidenav()">
-                <mat-icon class="white-icon">close</mat-icon>
+            <div class="logo">G</div>
+            <span class="white-text">Gestão</span>
+            <button mat-icon-button (click)="toggleSidenav()" [class.menu-open]="showExpandedSidenav">
+                <mat-icon class="white-icon">{{ showExpandedSidenav ? 'close' : 'menu' }}</mat-icon>
             </button>
         </div>
         
@@ -30,13 +15,16 @@
                 [routerLink]="item.path"
                 routerLinkActive="active-link">
                 <mat-icon class="white-icon">{{ item.icon }}</mat-icon>
-                <span class="white-text menu-text">{{ item.label }}</span>
+                <span class="white-text menu-text menu-label-adjust">{{ item.label }}</span>
             </a>
         </mat-nav-list>
     </div>
 
     <!-- Conteúdo Principal -->
-    <div class="main-content">
+    <div class="main-content" [class.menu-open]="showExpandedSidenav">
+        <button mat-icon-button class="menu-toggle-button" (click)="toggleSidenav()" *ngIf="!showExpandedSidenav" [class.menu-open]="showExpandedSidenav">
+            <mat-icon>menu</mat-icon>
+        </button>
         <div class="content-container">
             <ng-content></ng-content>
         </div>
