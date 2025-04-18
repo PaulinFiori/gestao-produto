@@ -16,8 +16,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { CrudService } from './services/crud.service';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    RegisterComponent
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -26,6 +38,11 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     MatIconModule,
     MatListModule,
     MatButtonModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
