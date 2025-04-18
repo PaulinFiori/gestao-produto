@@ -1,15 +1,49 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { CommonModulesModule } from "../common/common-modules/common-modules.module";
-import { CadastroGeraisComponent } from "./cadastro-gerais.component";
-import { AngularMaterialElementsModule } from "../common/angular-material-elements/angular-material-elements.module";
-import { ModalAdicionarTipoComponent } from "./modal-adicionar-tipo/modal-adicionar-tipo.component";
-import { ModalAdicionarFabricanteComponent } from "./modal-adicionar-fabricante/modal-adicionar-fabricante.component";
-import { ModalAdicionarCidadeComponent } from "./modal-adicionar-cidade/modal-adicionar-cidade.component";
-import { ModalAdicionarEstadoComponent } from "./modal-adicionar-estado/modal-adicionar-estado.component";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
+import { CadastroGeraisComponent } from './cadastro-gerais.component';
+import { ModalTipoComponent } from './modal-tipo/modal-tipo.component';
+import { ModalFabricanteComponent } from './modal-fabricante/modal-fabricante.component';
+import { ModalCidadeComponent } from './modal-cidade/modal-cidade.component';
+import { ModalEstadoComponent } from './modal-estado/modal-estado.component';
 
 @NgModule({
-    imports: [CommonModule, CommonModulesModule, AngularMaterialElementsModule],
-    declarations: [CadastroGeraisComponent, ModalAdicionarTipoComponent, ModalAdicionarFabricanteComponent, ModalAdicionarCidadeComponent, ModalAdicionarEstadoComponent]
+  declarations: [
+    CadastroGeraisComponent,
+    ModalTipoComponent,
+    ModalFabricanteComponent,
+    ModalCidadeComponent,
+    ModalEstadoComponent
+  ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+  ],
+  exports: [
+    CadastroGeraisComponent
+  ]
 })
 export class CadastroGeraisModule { }

@@ -2,15 +2,18 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalAdicionarTipoComponent } from './modal-adicionar-tipo/modal-adicionar-tipo.component';
-import { ModalAdicionarFabricanteComponent } from './modal-adicionar-fabricante/modal-adicionar-fabricante.component';
-import { ModalAdicionarCidadeComponent } from './modal-adicionar-cidade/modal-adicionar-cidade.component';
-import { ModalAdicionarEstadoComponent } from './modal-adicionar-estado/modal-adicionar-estado.component';
+import { ComponentType } from '@angular/cdk/portal';
+import { ModalTipoComponent } from './modal-tipo/modal-tipo.component';
+import { ModalFabricanteComponent } from './modal-fabricante/modal-fabricante.component';
+import { ModalCidadeComponent } from './modal-cidade/modal-cidade.component';
+import { ModalEstadoComponent } from './modal-estado/modal-estado.component';
 import { CrudService } from '../../services/crud.service';
 import { Tipo } from '../../models/tipo.model';
 import { Fabricante } from '../../models/fabricante.model';
 import { Cidade } from '../../models/cidade.model';
 import { Estado } from '../../models/estado.model';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmacaoDialogComponent } from '../common/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
   selector: 'app-cadastro-gerais',
@@ -39,11 +42,14 @@ export class CadastroGeraisComponent implements OnInit, AfterViewInit {
   public cidades = new MatTableDataSource<Cidade>([]);
   public estados = new MatTableDataSource<Estado>([]);
 
+  displayedColumnsTipos: string[] = ['id', 'nome', 'acoes'];
+  dataSourceTipos!: MatTableDataSource<any>;
+
   constructor(
     private dialog: MatDialog,
-    private crudService: CrudService
+    private crudService: CrudService,
+    private toastr: ToastrService
   ) {
-    // Configurar filtros personalizados para cada tabela
     this.tipos.filterPredicate = this.createFilter();
     this.fabricantes.filterPredicate = this.createFilter();
     this.cidades.filterPredicate = this.createFilter();
@@ -104,6 +110,7 @@ export class CadastroGeraisComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error('Erro ao carregar tipos:', error);
+        this.toastr.error('Erro ao carregar tipos');
       }
     });
   }
@@ -115,6 +122,7 @@ export class CadastroGeraisComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error('Erro ao carregar fabricantes:', error);
+        this.toastr.error('Erro ao carregar fabricantes');
       }
     });
   }
@@ -126,6 +134,7 @@ export class CadastroGeraisComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error('Erro ao carregar cidades:', error);
+        this.toastr.error('Erro ao carregar cidades');
       }
     });
   }
@@ -137,55 +146,93 @@ export class CadastroGeraisComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error('Erro ao carregar estados:', error);
+        this.toastr.error('Erro ao carregar estados');
       }
     });
   }
 
-  abrirModalAdicionarTipo(): void {
-    const dialogRef = this.dialog.open(ModalAdicionarTipoComponent, {
-      width: '500px'
+  abrirModal(tipo: string, data?: any): void {
+    let component: ComponentType<any>;
+    switch (tipo) {
+      case 'tipo':
+        component = ModalTipoComponent;
+        break;
+      case 'fabricante':
+        component = ModalFabricanteComponent;
+        break;
+      case 'cidade':
+        component = ModalCidadeComponent;
+        break;
+      case 'estado':
+        component = ModalEstadoComponent;
+        break;
+      default:
+        return;
+    }
+
+    const dialogRef = this.dialog.open(component, {
+      width: '500px',
+      data: data
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.carregarTipos();
+        this.carregarDados();
       }
     });
   }
 
-  abrirModalAdicionarFabricante(): void {
-    const dialogRef = this.dialog.open(ModalAdicionarFabricanteComponent, {
-      width: '500px'
+  excluirItem(tipo: string, id: number): void {
+    const dialogRef = this.dialog.open(ConfirmacaoDialogComponent, {
+      width: '400px',
+      data: { mensagem: `Deseja realmente excluir este ${tipo}?` }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.carregarFabricantes();
+        this.crudService.delete(`${tipo}s/${id}`).subscribe({
+          next: () => {
+            this.toastr.success(`${tipo} excluído com sucesso!`);
+            this.carregarDados();
+          },
+          error: (error) => {
+            console.error(`Erro ao excluir ${tipo}:`, error);
+            this.toastr.error(`Erro ao excluir ${tipo}`);
+          }
+        });
       }
     });
   }
 
-  abrirModalAdicionarCidade(): void {
-    const dialogRef = this.dialog.open(ModalAdicionarCidadeComponent, {
-      width: '500px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.carregarCidades();
-      }
-    });
+  abrirModalTipo(tipo?: Tipo): void {
+    this.abrirModal('tipo', tipo);
   }
 
-  abrirModalAdicionarEstado(): void { 
-    const dialogRef = this.dialog.open(ModalAdicionarEstadoComponent, {
-      width: '500px'
-    });
+  abrirModalFabricante(fabricante?: Fabricante): void {
+    this.abrirModal('fabricante', fabricante);
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.carregarEstados();
-      }
-    });
+  abrirModalCidade(cidade?: Cidade): void {
+    this.abrirModal('cidade', cidade);
+  }
+
+  abrirModalEstado(estado?: Estado): void {
+    this.abrirModal('estado', estado);
+  }
+
+  excluirTipo(id: number): void {
+    this.excluirItem('tipo', id);
+  }
+
+  excluirFabricante(id: number): void {
+    this.excluirItem('fabricante', id);
+  }
+
+  excluirCidade(id: number): void {
+    this.excluirItem('cidade', id);
+  }
+
+  excluirEstado(id: number): void {
+    this.excluirItem('estado', id);
   }
 }

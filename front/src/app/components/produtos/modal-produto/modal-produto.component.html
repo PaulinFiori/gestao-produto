@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="salvar()" class="form-container">
-    <h2>Adicionar Produto</h2>
+    <h2>{{ isEdit ? 'Editar' : 'Adicionar' }} Produto</h2>
 
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Nome</mat-label>
@@ -22,7 +22,7 @@
 
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Tipo</mat-label>
-        <mat-select formControlName="tipo" required>
+        <mat-select formControlName="tipo" required [compareWith]="compareById">
             <mat-option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo.nome }}</mat-option>
         </mat-select>
         <mat-error *ngIf="form.get('tipo')?.errors?.['required']">Tipo é obrigatório</mat-error>
@@ -30,7 +30,7 @@
 
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Cidade</mat-label>
-        <mat-select formControlName="cidade" required>
+        <mat-select formControlName="cidade" required [compareWith]="compareById">
             <mat-option *ngFor="let cidade of cidades" [value]="cidade">{{ cidade.nome }}</mat-option>
         </mat-select>
         <mat-error *ngIf="form.get('cidade')?.errors?.['required']">Cidade é obrigatória</mat-error>
@@ -38,7 +38,7 @@
 
     <mat-form-field appearance="fill" class="full-width d-block">
         <mat-label>Fabricante</mat-label>
-        <mat-select formControlName="fabricante" required>
+        <mat-select formControlName="fabricante" required [compareWith]="compareById">
             <mat-option *ngFor="let fabricante of fabricantes" [value]="fabricante">{{ fabricante.nome }}</mat-option>
         </mat-select>
         <mat-error *ngIf="form.get('fabricante')?.errors?.['required']">Fabricante é obrigatório</mat-error>
@@ -46,6 +46,6 @@
 
     <div class="actions">
         <button mat-button type="button" (click)="cancelar()">Cancelar</button>
-        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Salvar</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">{{ isEdit ? 'Atualizar' : 'Salvar' }}</button>
     </div>
 </form>

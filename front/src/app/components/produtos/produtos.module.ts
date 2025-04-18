@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { CommonModulesModule } from "../common/common-modules/common-modules.module";
 import { ProdutosComponent } from "./produtos.component";
 import { AngularMaterialElementsModule } from "../common/angular-material-elements/angular-material-elements.module";
-import { ModalAdicionarProdutoComponent } from './modal-adicionar-produto/modal-adicionar-produto.component';
+import { ModalProdutoComponent } from './modal-produto/modal-produto.component';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @NgModule({
@@ -14,6 +14,6 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
         NgxMaskDirective,
         NgxMaskPipe
     ],
-    declarations: [ProdutosComponent, ModalAdicionarProdutoComponent]
+    declarations: [ProdutosComponent, ModalProdutoComponent]
 })
 export class ProdutosModule { }

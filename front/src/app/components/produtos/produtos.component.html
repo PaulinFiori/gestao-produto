@@ -8,6 +8,11 @@
             </button>              
         </mat-toolbar>
 
+        <mat-form-field class="filtro-field">
+            <mat-label>Filtrar</mat-label>
+            <input matInput (keyup)="aplicarFiltroProdutos($event)" placeholder="Ex. Produto 1">
+        </mat-form-field>
+
         <div class="table-container">
             <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
                 <ng-container matColumnDef="nome">

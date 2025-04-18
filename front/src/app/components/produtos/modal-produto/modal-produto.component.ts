@@ -6,12 +6,13 @@ import { forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-    selector: 'app-modal-adicionar-produto',
-    templateUrl: './modal-adicionar-produto.component.html',
-    styleUrls: ['./modal-adicionar-produto.component.scss']
+    selector: 'app-modal-produto',
+    templateUrl: './modal-produto.component.html',
+    styleUrls: ['./modal-produto.component.scss']
 })
-export class ModalAdicionarProdutoComponent implements OnInit {
+export class ModalProdutoComponent implements OnInit {
     form: FormGroup;
+    isEdit = false;
 
     public tipos: any[] = [];
     public cidades: any[] = [];
@@ -28,23 +29,29 @@ export class ModalAdicionarProdutoComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        public dialogRef: MatDialogRef<ModalAdicionarProdutoComponent>,
+        public dialogRef: MatDialogRef<ModalProdutoComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private crudService: CrudService,
         private toastr: ToastrService
     ) {
+        this.isEdit = !!data;
         this.form = this.fb.group({
-            nome: ['', Validators.required],
-            valor: ['', Validators.required],
-            estoque: ['', [Validators.required, Validators.min(0)]],
-            tipo: ['', Validators.required],
-            cidade: ['', Validators.required],
-            fabricante: ['', Validators.required]
+            id: [data?.id || null],
+            nome: [data?.nome || '', Validators.required],
+            valor: [data?.valor || '', Validators.required],
+            estoque: [data?.estoque || '', [Validators.required, Validators.min(0)]],
+            tipo: [data?.tipo || '', Validators.required],
+            cidade: [data?.cidade || '', Validators.required],
+            fabricante: [data?.fabricante || '', Validators.required]
         });
     }
 
     ngOnInit(): void {
         this.carregarDados();
+    }
+
+    compareById(obj1: any, obj2: any): boolean {
+        return obj1 && obj2 && obj1.id === obj2.id;
     }
 
     carregarDados(): void {
@@ -72,16 +79,18 @@ export class ModalAdicionarProdutoComponent implements OnInit {
     salvar(): void {
         if (this.form.valid) {
             const formValue = { ...this.form.value };
-            // O valor já vem como número quando usando mask="separator.2"
-            // Não precisa fazer conversão adicional
             
-            this.crudService.post('produtos', formValue).subscribe({
+            const request = this.isEdit ? 
+                this.crudService.put(`produtos/${formValue.id}`, formValue) :
+                this.crudService.post('produtos', formValue);
+
+            request.subscribe({
                 next: (response) => {
                     this.dialogRef.close(response);
                 },
                 error: (error) => {
-                    this.toastr.error('Erro ao salvar produto');
-                    console.error('Erro ao salvar produto:', error);
+                    this.toastr.error(`Erro ao ${this.isEdit ? 'atualizar' : 'salvar'} produto`);
+                    console.error(`Erro ao ${this.isEdit ? 'atualizar' : 'salvar'} produto:`, error);
                 }
             });
         } else {

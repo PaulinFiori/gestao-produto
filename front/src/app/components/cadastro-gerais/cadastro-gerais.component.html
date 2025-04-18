@@ -7,22 +7,31 @@
                     <mat-toolbar color="primary" class="toolbar-cadastro">
                         <span>Tipo</span>
                         <span class="spacer"></span>
-                        <button mat-flat-button color="primary" class="btn-add" (click)="abrirModalAdicionarTipo()">
+                        <button mat-flat-button color="primary" class="btn-add" (click)="abrirModalTipo()">
                             + Adicionar Tipo
                         </button>
                     </mat-toolbar>
 
+                    <mat-form-field class="filtro-field">
+                        <mat-label>Filtrar</mat-label>
+                        <input matInput (keyup)="aplicarFiltroTipos($event)" placeholder="Ex. Tipo 1">
+                    </mat-form-field>
+
                     <mat-table [dataSource]="tipos" class="mat-elevation-z2">
                         <ng-container matColumnDef="nome">
-                            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+                            <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.nome}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="acoes">
-                            <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                            <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+                            <mat-cell *matCellDef="let tipo">
+                                <button mat-icon-button color="primary" (click)="abrirModalTipo(tipo)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="excluirTipo(tipo.id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
                             </mat-cell>
                         </ng-container>
 
@@ -40,22 +49,31 @@
                     <mat-toolbar color="primary" class="toolbar-cadastro">
                         <span>Fabricante</span>
                         <span class="spacer"></span>
-                        <button mat-flat-button color="primary" class="btn-add" (click)="abrirModalAdicionarFabricante()">
+                        <button mat-flat-button color="primary" class="btn-add" (click)="abrirModalFabricante()">
                             + Adicionar Fabricante
                         </button>
                     </mat-toolbar>
 
+                    <mat-form-field class="filtro-field">
+                        <mat-label>Filtrar</mat-label>
+                        <input matInput (keyup)="aplicarFiltroFabricantes($event)" placeholder="Ex. Fabricante 1">
+                    </mat-form-field>
+
                     <mat-table [dataSource]="fabricantes" class="mat-elevation-z2">
                         <ng-container matColumnDef="nome">
-                            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+                            <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.nome}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="acoes">
-                            <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                            <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+                            <mat-cell *matCellDef="let fabricante">
+                                <button mat-icon-button color="primary" (click)="abrirModalFabricante(fabricante)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="excluirFabricante(fabricante.id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
                             </mat-cell>
                         </ng-container>
 
@@ -73,22 +91,31 @@
                     <mat-toolbar color="primary" class="toolbar-cadastro">
                         <span>Cidade</span>
                         <span class="spacer"></span>
-                        <button mat-flat-button color="primary" class="btn-add" (click)="abrirModalAdicionarCidade()">
+                        <button mat-flat-button color="primary" class="btn-add" (click)="abrirModalCidade()">
                             + Adicionar Cidade
                         </button>
                     </mat-toolbar>
 
+                    <mat-form-field class="filtro-field">
+                        <mat-label>Filtrar</mat-label>
+                        <input matInput (keyup)="aplicarFiltroCidades($event)" placeholder="Ex. Cidade 1">
+                    </mat-form-field>
+
                     <mat-table [dataSource]="cidades" class="mat-elevation-z2">
                         <ng-container matColumnDef="nome">
-                            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+                            <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.nome}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="acoes">
-                            <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                            <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+                            <mat-cell *matCellDef="let cidade">
+                                <button mat-icon-button color="primary" (click)="abrirModalCidade(cidade)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="excluirCidade(cidade.id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
                             </mat-cell>
                         </ng-container>
 
@@ -106,27 +133,36 @@
                     <mat-toolbar color="primary" class="toolbar-cadastro">
                         <span>Estado</span>
                         <span class="spacer"></span>
-                        <button mat-flat-button color="primary" class="btn-add" (click)="abrirModalAdicionarEstado()">
+                        <button mat-flat-button color="primary" class="btn-add" (click)="abrirModalEstado()">
                             + Adicionar Estado
                         </button>
                     </mat-toolbar>
 
+                    <mat-form-field class="filtro-field">
+                        <mat-label>Filtrar</mat-label>
+                        <input matInput (keyup)="aplicarFiltroEstados($event)" placeholder="Ex. Estado 1">
+                    </mat-form-field>
+
                     <mat-table [dataSource]="estados" class="mat-elevation-z2">
                         <ng-container matColumnDef="nome">
-                            <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+                            <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.nome}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="abreviacao">
-                            <mat-header-cell *matHeaderCellDef> Abreviação </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.abreviacao}} </mat-cell>
+                            <mat-header-cell *matHeaderCellDef>Abreviação</mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.abreviacao}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="acoes">
-                            <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-                                <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                            <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+                            <mat-cell *matCellDef="let estado">
+                                <button mat-icon-button color="primary" (click)="abrirModalEstado(estado)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="excluirEstado(estado.id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
                             </mat-cell>
                         </ng-container>
 

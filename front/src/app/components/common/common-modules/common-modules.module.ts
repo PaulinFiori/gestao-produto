@@ -9,8 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmacaoDialogComponent } from '../confirmacao-dialog/confirmacao-dialog.component';
 
 @NgModule({
+  declarations: [
+    ConfirmacaoDialogComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -21,7 +26,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatIconModule,
     MatListModule,
     MatButtonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   exports: [
     CommonModule,
@@ -33,7 +39,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatIconModule,
     MatListModule,
     MatButtonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ConfirmacaoDialogComponent
   ]
 })
 export class CommonModulesModule { }

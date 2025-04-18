@@ -16,7 +16,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CrudService } from './services/crud.service';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-
 @NgModule({
   declarations: [AppComponent],
   imports: [

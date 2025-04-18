@@ -2,9 +2,10 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalAdicionarProdutoComponent } from './modal-adicionar-produto/modal-adicionar-produto.component';
+import { ModalProdutoComponent } from './modal-produto/modal-produto.component';
 import { CrudService } from '../../services/crud.service';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmacaoDialogComponent } from '../common/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
   selector: 'app-produtos',
@@ -45,20 +46,49 @@ export class ProdutosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  adicionarProduto() {
-    console.log('Adicionar novo produto');
+  aplicarFiltroProdutos(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim();
   }
 
   editarProduto(produto: any) {
-    console.log('Editar', produto);
+    const dialogRef = this.dialog.open(ModalProdutoComponent, {
+      width: '500px',
+      data: produto
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.toastr.success('Produto atualizado com sucesso!');
+        this.carregarProdutos();
+      }
+    });
   }
 
   excluirProduto(produto: any) {
-    console.log('Excluir', produto);
+    const dialogRef = this.dialog.open(ConfirmacaoDialogComponent, {
+      width: '400px',
+      data: { mensagem: `Deseja realmente excluir ${produto.nome}?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.crudService.delete<any[]>('produtos/' + produto.id).subscribe({
+          next: (produtos) => {
+            this.toastr.success('Produto deletado com sucesso!');
+            this.carregarProdutos();
+          },
+          error: (error) => {
+            this.toastr.error('Erro ao deletar produto');
+            console.error('Erro ao deletar produto:', error);
+          }
+        });
+      }
+    });
   }
 
   abrirModalAdicionarProduto(): void {
-    const dialogRef = this.dialog.open(ModalAdicionarProdutoComponent, {
+    const dialogRef = this.dialog.open(ModalProdutoComponent, {
       width: '500px'
     });
   
