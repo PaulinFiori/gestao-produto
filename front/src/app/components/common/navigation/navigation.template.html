@@ -1,10 +1,10 @@
 <div class="sidenav-container">
     <!-- Sidebar Menu -->
-    <div class="expanded-sidenav" [class.hidden]="!showExpandedSidenav">
+    <div class="expanded-sidenav shadow" [class.hidden]="!showExpandedSidenav">
         <div class="expanded-header">
-            <div class="logo">G</div>
-            <span class="white-text">Gestão</span>
-            <button mat-icon-button (click)="toggleSidenav()" [class.menu-open]="showExpandedSidenav">
+            <div class="logo d-flex align-items-center justify-content-center">G</div>
+            <span class="white-text flex-grow-1">Gestão</span>
+            <button mat-icon-button class="d-lg-none" (click)="toggleSidenav()" [class.menu-open]="showExpandedSidenav">
                 <mat-icon class="white-icon">{{ showExpandedSidenav ? 'close' : 'menu' }}</mat-icon>
             </button>
         </div>
@@ -22,10 +22,12 @@
 
     <!-- Conteúdo Principal -->
     <div class="main-content" [class.menu-open]="showExpandedSidenav">
-        <button mat-icon-button class="menu-toggle-button" (click)="toggleSidenav()" *ngIf="!showExpandedSidenav" [class.menu-open]="showExpandedSidenav">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <div class="content-container">
+        <div class="content-header d-flex align-items-center p-3">
+            <button mat-icon-button class="menu-toggle-button" (click)="toggleSidenav()" *ngIf="!showExpandedSidenav">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+        <div class="content-container container-fluid">
             <ng-content></ng-content>
         </div>
     </div>

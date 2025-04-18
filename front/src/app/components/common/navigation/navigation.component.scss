@@ -16,15 +16,16 @@
     position: relative;
     background-color: #f5f5f5;
     
-    &:not(.menu-open) {
+    @media (max-width: 991.98px) { // Bootstrap lg breakpoint
         padding-left: 0;
     }
 
     .content-container {
         flex: 1;
         width: 100%;
-        height: calc(100vh - 40px); // 40px é o padding total (20px top + 20px bottom)
+        height: calc(100vh - 56px); // 56px é a altura do header
         overflow-y: auto;
+        padding: 1rem;
     }
 }
 
@@ -36,34 +37,44 @@
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 1000;
+    z-index: 1040; // Acima do Bootstrap navbar
     overflow-y: auto;
     
+    @media (max-width: 991.98px) {
+        width: 280px;
+        transform: translateX(-280px);
+        
+        &:not(.hidden) {
+            transform: translateX(0);
+        }
+    }
+    
     &.hidden {
-        transform: translateX(-250px);
+        @media (min-width: 992px) {
+            transform: translateX(-250px);
+        }
     }
 }
 
 .expanded-header {
     display: flex;
     align-items: center;
-    padding: 16px;
+    padding: 1rem;
     background-color: darken(#2c3e50, 5%);
+    min-height: 56px;
     
     .logo {
         width: 32px;
         height: 32px;
         background-color: white;
         border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         margin-right: 12px;
+        font-weight: 500;
     }
     
     .white-text {
         color: white;
-        flex-grow: 1;
+        font-size: 1.1rem;
     }
 }
 
@@ -114,15 +125,35 @@
 }
 
 .menu-toggle-button {
-    position: fixed;
-    top: 16px;
-    left: 16px;
+    position: relative;
     z-index: 999;
     background-color: #2c3e50;
     color: white;
     
+    @media (min-width: 992px) {
+        display: none !important;
+    }
+    
     &:not(.menu-open) {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+}
+
+// Overlay para mobile
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1030;
+    
+    @media (max-width: 991.98px) {
+        &.show {
+            display: block;
+        }
     }
 }
 
@@ -138,41 +169,42 @@
 }
 
 ::ng-deep {
+    .mat-list-item-content {
+        padding: 0 16px !important;
+        color: white !important;
+    }
+
     .mat-list-base {
         padding-top: 0 !important;
     }
 
-    .mat-list-item {
+    .mat-list-base .mat-list-item {
         height: 48px !important;
+        color: white !important;
     }
 
-    a.mat-list-item {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        padding: 0 16px !important;
-        text-decoration: none !important;
-        height: 48px !important;
-
-        &:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+    .expanded-sidenav {
+        .mat-list-item-content {
+            color: white !important;
+            padding: 0 16px !important;
         }
 
-        &.active-link {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .mat-icon {
+        .mat-list-item-content .mat-icon {
             color: white !important;
             margin-right: 12px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
+        }
+
+        .mat-list-item-content span {
+            color: white !important;
         }
     }
 
-    .mat-list-item-content {
-        padding: 0 !important;
+    .mat-list-item:focus {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .mat-list-item-ripple {
+        background-color: rgba(255, 255, 255, 0.05) !important;
     }
 }
 
@@ -204,3 +236,4 @@
         }
     }
 }
+

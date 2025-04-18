@@ -1,9 +1,25 @@
-<div class="welcome-container">
-    <div class="welcome-box">
-        <h1>Seja bem-vindo!</h1>
-        <p>
-            Este é um site de gestão de produtos, desenvolvido para te ajudar a organizar, controlar e otimizar seus
-            processos de forma simples e eficiente.
-        </p>
+<div class="container-fluid py-4">
+    <div class="row justify-content-center align-items-center min-vh-75">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body text-center p-4">
+                    <h1 class="display-5 mb-4">Seja bem-vindo!</h1>
+                    <p class="lead mb-4">
+                        Este é um site de gestão de produtos, desenvolvido para te ajudar a organizar, controlar e otimizar seus
+                        processos de forma simples e eficiente.
+                    </p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <button class="btn btn-primary btn-lg px-4" routerLink="/produtos">
+                            <i class="fas fa-box me-2"></i>
+                            Gerenciar Produtos
+                        </button>
+                        <button class="btn btn-outline-secondary btn-lg px-4" routerLink="/cadastro-gerais">
+                            <i class="fas fa-cog me-2"></i>
+                            Configurações
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

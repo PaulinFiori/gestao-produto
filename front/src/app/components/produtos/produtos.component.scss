@@ -68,3 +68,95 @@ mat-table {
 ::ng-deep .mat-mdc-icon-button.mat-primary {
     color: #2c3e50 !important;
 }
+
+// Estilos para o card
+.card {
+    border: none;
+    
+    .card-header {
+        border-bottom: none;
+        background-color: #2c3e50;
+    }
+}
+
+// Estilos para a tabela
+.mat-table {
+    width: 100%;
+    background: transparent;
+    
+    .mat-header-row {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+    
+    .mat-row {
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+    }
+}
+
+// Responsividade para telas pequenas
+@media screen and (max-width: 768px) {
+    .mat-table {
+        .mat-header-row {
+            display: none;
+        }
+
+        .mat-row {
+            flex-direction: column;
+            align-items: start;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        .mat-cell {
+            width: 100%;
+            text-align: left;
+            padding: 0.5rem 0;
+            
+            &:before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                margin-right: 1rem;
+            }
+
+            &.text-center {
+                text-align: left !important;
+            }
+        }
+    }
+}
+
+// Estilos para os botões
+.btn-add {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+    }
+}
+
+// Ajustes para o campo de busca
+.mat-form-field {
+    .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
+}
+
+// Animações
+.mat-row {
+    transition: background-color 0.2s ease;
+}
+
+.mat-icon-button {
+    transition: transform 0.2s ease;
+    
+    &:hover {
+        transform: scale(1.1);
+    }
+}
