@@ -8,20 +8,26 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PerfilGuard } from './guards/perfil.guard';
-
+import { BlankLayoutComponent } from './components/common/layouts/blankLayout.component';
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "login",
+    redirectTo: "home",
     pathMatch: "full"
   },
   {
-    path: "login",
-    component: LoginComponent
-  },
-  {
-    path: "register",
-    component: RegisterComponent
+    path: "",
+    component: BlankLayoutComponent,
+    children: [
+      {
+        path: "login",
+        component: LoginComponent
+      },
+      {
+        path: "cadastre",
+        component: RegisterComponent
+      }
+      ]
   },
   { 
     path: "",

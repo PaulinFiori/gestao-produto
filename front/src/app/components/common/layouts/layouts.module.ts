@@ -4,6 +4,7 @@ import { FooterComponent } from "../footer/footer.component";
 import { NavigationComponent } from "../navigation/navigation.component";
 import { BasicLayoutComponent } from "./basicLayout.component";
 import { AngularMaterialElementsModule } from "../angular-material-elements/angular-material-elements.module";
+import { BlankLayoutComponent } from "./blankLayout.component";
 
 @NgModule({
   imports: [
@@ -13,12 +14,14 @@ import { AngularMaterialElementsModule } from "../angular-material-elements/angu
   declarations: [
     FooterComponent,
     BasicLayoutComponent,
-    NavigationComponent
+    NavigationComponent,
+    BlankLayoutComponent
   ],
   exports: [
     FooterComponent,
     BasicLayoutComponent,
-    NavigationComponent
+    NavigationComponent,
+    BlankLayoutComponent
   ],
   providers: []
 })
