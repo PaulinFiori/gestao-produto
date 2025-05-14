@@ -15,12 +15,13 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Usuario register(String email, String password) {
+    public Usuario register(String nome, String email, String password) {
         if (usuarioRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email já cadastrado");
         }
 
         Usuario usuario = new Usuario();
+        usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setSenha(passwordEncoder.encode(password));
 

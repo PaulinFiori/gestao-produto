@@ -12,7 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { ProdutosModule } from './components/produtos/produtos.module';
 import { CadastroGeraisModule } from './components/cadastro-gerais/cadastro-gerais.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CrudService } from './services/crud.service';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
@@ -24,6 +24,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
+import { JwtHttpInterceptor } from './interceptors/jwt-http.interceptor';
+import { RefreshTokenInterceptor } from './interceptors/refresh-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { RegisterComponent } from './components/auth/register/register.component
   ],
   providers: [
     CrudService,
-    provideNgxMask()
+    provideNgxMask(),
+    { provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

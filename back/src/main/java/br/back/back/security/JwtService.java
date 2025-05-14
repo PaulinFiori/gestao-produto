@@ -75,14 +75,22 @@ public class JwtService {
     }
 
     public Optional<String> getAccessTokenFromRequest(HttpServletRequest request) {
-        return Arrays.stream(request.getCookies())
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return Optional.empty();
+        }
+        return Arrays.stream(cookies)
                 .filter(cookie -> jwtConfig.getCookie().getAccessToken().equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .findFirst();
     }
 
     public Optional<String> getRefreshTokenFromRequest(HttpServletRequest request) {
-        return Arrays.stream(request.getCookies())
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return Optional.empty();
+        }
+        return Arrays.stream(cookies)
                 .filter(cookie -> jwtConfig.getCookie().getRefreshToken().equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .findFirst();

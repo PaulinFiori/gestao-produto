@@ -33,7 +33,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Usuario> register(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(authService.register(usuario.getEmail(), usuario.getSenha()));
+        return ResponseEntity.ok(authService.register(usuario.getNome(), usuario.getEmail(), usuario.getSenha()));
     }
 
     @PostMapping("/login")
