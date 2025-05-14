@@ -14,6 +14,33 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/oauth2/authorize
+          jwk-set-uri: http://localhost:8080/oauth2/jwks
+      authorization:
+        server:
+          client-registration-uri: /oauth2/register
+          authorization-consent-uri: /oauth2/consent
+          authorization-endpoint:
+            uri: /oauth2/authorize
+          token-endpoint:
+            uri: /oauth2/token
+          jwk-set-uri: /oauth2/jwks
 
 server:
-  port: 8080 
+  port: 8080
+
+jwt:
+  secret: 2N1JH+jnAUTF+o+8E6T+EwdVdnoaNZthcGxeAbhEIG8=
+  access-token-validity-seconds: 3600
+  refresh-token-validity-seconds: 2592000
+  refresh-token-max-age: 30d
+  cookie:
+    refresh-token: refreshToken
+    access-token: accessToken
+    secure: true
+    http-only: true
+    same-site: strict 

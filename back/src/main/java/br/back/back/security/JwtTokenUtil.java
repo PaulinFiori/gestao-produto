@@ -15,7 +15,11 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil {
 
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    @Value("${jwt.access-token-validity-seconds:3600}")
+    private long accessTokenValidityInSeconds;
+
+    @Value("${jwt.refresh-token-validity-seconds:2592000}")
+    private long refreshTokenValidityInSeconds;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -37,22 +41,28 @@ public class JwtTokenUtil {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateAccessToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims, userDetails.getUsername(), false);
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    public String generateRefreshToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, userDetails.getUsername(), true);
+    }
+
+    private String doGenerateToken(Map<String, Object> claims, String subject, boolean isRefreshToken) {
+        long validity = isRefreshToken ? refreshTokenValidityInSeconds : accessTokenValidityInSeconds;
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + validity * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
