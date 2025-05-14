@@ -18,11 +18,18 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.API_URL}/auth/login`, { email, password })
+    return this.http.post(`${this.API_URL}/auth/login`, { email, senha: password })
       .pipe(
         tap((response: any) => {
           if (response.access_token) {
             this.setTokens(response.access_token, response.refresh_token);
+            
+            const userData = {
+              email: email,
+              roles: ['USER']
+            };
+            
+            localStorage.setItem('user', JSON.stringify(userData));
           }
         })
       );

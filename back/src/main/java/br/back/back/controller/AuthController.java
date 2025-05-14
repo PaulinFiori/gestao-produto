@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -45,9 +46,12 @@ public class AuthController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.email());
         String accessToken = jwtService.generateAccessToken(userDetails);
         String refreshToken = jwtService.generateRefreshToken(userDetails);
-
         jwtService.addTokensToResponse(response, accessToken, refreshToken);
-        return ResponseEntity.ok().build();
+        
+        return ResponseEntity.ok(Map.of(
+            "access_token", accessToken,
+            "refresh_token", refreshToken
+        ));
     }
 
     @PostMapping("/refresh-token")
@@ -67,7 +71,11 @@ public class AuthController {
 
         String newAccessToken = jwtService.generateAccessToken(userDetails);
         jwtService.addTokensToResponse(response, newAccessToken, refreshToken);
-        return ResponseEntity.ok().build();
+        
+        return ResponseEntity.ok(Map.of(
+            "access_token", newAccessToken,
+            "refresh_token", refreshToken
+        ));
     }
 
     @PostMapping("/logout")
@@ -75,6 +83,5 @@ public class AuthController {
         jwtService.invalidateTokens(response);
         return ResponseEntity.ok().build();
     }
-
 
 }

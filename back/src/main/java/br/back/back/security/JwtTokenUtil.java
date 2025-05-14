@@ -3,6 +3,7 @@ package br.back.back.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import javax.crypto.SecretKey;
 
 @Component
 public class JwtTokenUtil {
@@ -22,7 +24,12 @@ public class JwtTokenUtil {
     private long refreshTokenValidityInSeconds;
 
     @Value("${jwt.secret}")
-    private String secret;
+    private String secretString;
+    
+    private SecretKey getSigningKey() {
+        // Gerando uma chave segura para HS512 independente do tamanho da secret atual
+        return Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    }
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -38,7 +45,11 @@ public class JwtTokenUtil {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public Boolean isTokenExpired(String token) {
@@ -63,7 +74,7 @@ public class JwtTokenUtil {
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + validity * 1000))
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
