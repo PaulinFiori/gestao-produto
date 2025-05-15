@@ -42,13 +42,13 @@ const routes: Routes = [
         path: "cadastro-gerais",
         component: CadastroGeraisComponent,
         canActivate: [PerfilGuard],
-        data: { roles: ['ADMIN'] }
+        data: { perfil: ['A'] } // Somente admins podem acessar
       },
       {
         path: "produtos",
         component: ProdutosComponent,
         canActivate: [PerfilGuard],
-        data: { roles: ['ADMIN', 'USER'] }
+        data: { perfil: ['A', 'U'] } // Admins e usuários comuns podem acessar
       },
     ]
   }

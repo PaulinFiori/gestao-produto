@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -57,13 +58,20 @@ public class JwtTokenUtil {
         return expiration.before(new Date());
     }
 
+    @Autowired
+    private JwtTokenEnhancer tokenEnhancer;
+
     public String generateAccessToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        // Enriquecer o token com perfil e authorities
+        claims = tokenEnhancer.enhanceToken(claims, userDetails);
         return doGenerateToken(claims, userDetails.getUsername(), false);
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        // Enriquecer o token de refresh com perfil e authorities
+        claims = tokenEnhancer.enhanceToken(claims, userDetails);
         return doGenerateToken(claims, userDetails.getUsername(), true);
     }
 

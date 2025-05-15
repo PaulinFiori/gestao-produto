@@ -3,7 +3,8 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
@@ -14,26 +15,38 @@ export class JwtHttpInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // Não adicionar token para rotas de autenticação
     if (request.url.includes('/auth/login') || request.url.includes('/auth/register')) {
       return next.handle(request);
     }
     
-    // Obter token do serviço de autenticação
-    const token = this.authService.getToken();
+    if (request.url.includes('/auth/refresh')) {
+      if (request.headers.has('Authorization')) {
+        return next.handle(request);
+      }
+      
+      const refreshToken = this.authService.getRefreshToken();
+      if (refreshToken) {
+        const clonedRequest = request.clone({
+          setHeaders: {
+            'Authorization': `Bearer ${refreshToken}`
+          }
+        });
+        return next.handle(clonedRequest);
+      }
+    }
     
-    if (token) {
-      // Clonar a requisição e adicionar o cabeçalho de autorização
+    const accessToken = this.authService.getToken();
+    if (accessToken) {
       const clonedRequest = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
         }
       });
       
       return next.handle(clonedRequest);
     }
     
-    // Se não houver token, continuar com a requisição original
     return next.handle(request);
   }
 }

@@ -6,22 +6,41 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, filter, switchMap, take, finalize } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
+import { catchError, filter, switchMap, take, finalize, delay } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class RefreshTokenInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private refreshAttempts = 0;
+  private maxRefreshAttempts = 3;
+  private lastRefreshTime = 0;
+  private minTimeBetweenRefresh = 2000;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (request.url.includes('auth/refresh') && (Date.now() - this.lastRefreshTime) > this.minTimeBetweenRefresh) {
+      this.refreshAttempts = 0;
+    }
+
     return next.handle(request).pipe(
       catchError(error => {
-        if (error instanceof HttpErrorResponse && error.status === 401 && !request.url.includes('auth/refresh')) {
-          return this.handle401Error(request, next);
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === 401 && !request.url.includes('auth/refresh')) {
+            return this.handle401Error(request, next);
+          }
+          if (error.status === 401 && request.url.includes('auth/refresh')) {
+            this.refreshAttempts++;
+            if (this.refreshAttempts >= this.maxRefreshAttempts) {
+              this.authService.logout();
+              this.router.navigate(['/login']);
+              return throwError(() => new Error('Sessão expirada. Por favor, faça login novamente.'));
+            }
+          }
         }
         
         return throwError(() => error);
@@ -30,24 +49,52 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const currentTime = Date.now();
+    
+    if ((currentTime - this.lastRefreshTime) < this.minTimeBetweenRefresh) {
+      this.refreshAttempts++;
+      
+      if (this.refreshAttempts >= this.maxRefreshAttempts) {
+        this.authService.logout();
+        this.router.navigate(['/login']);
+        return throwError(() => new Error('Muitas tentativas de refresh. Faça login novamente.'));
+      }
+      
+      return of(null).pipe(
+        delay(this.minTimeBetweenRefresh),
+        switchMap(() => this.handle401Error(request, next))
+      );
+    }
+    
+    this.lastRefreshTime = currentTime;
+    
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
 
-      // Vamos estender o AuthService para incluir um método de refresh token
       return this.authService.refreshToken().pipe(
-        switchMap((token: any) => {
+        switchMap((response: any) => {
           this.isRefreshing = false;
-          this.refreshTokenSubject.next(token);
+          this.refreshTokenSubject.next(response);
+          this.refreshAttempts = 0;
           
-          // Clone o request original e adicione o novo token
-          return next.handle(this.addToken(request, token.access_token));
+          const newToken = response.access_token || (typeof response === 'string' ? response : null);
+          if (!newToken) {
+            throw new Error('Formato de token inválido');
+          }
+          
+          return next.handle(this.addToken(request, newToken));
         }),
         catchError(err => {
           this.isRefreshing = false;
+          this.refreshAttempts++;
           
-          // Se o refresh token falhar, faça logout e redirecione para login
-          this.authService.logout();
+          if (this.refreshAttempts >= this.maxRefreshAttempts) {
+            this.authService.logout();
+            this.router.navigate(['/login']);
+            return throwError(() => new Error('Erro na renovação do token. Faça login novamente.'));
+          }
+          
           return throwError(() => err);
         }),
         finalize(() => {
@@ -55,12 +102,24 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
         })
       );
     } else {
-      // Se já estiver refreshing, aguarde até que o novo token esteja disponível
       return this.refreshTokenSubject.pipe(
         filter(token => token != null),
         take(1),
-        switchMap(token => {
-          return next.handle(this.addToken(request, token.access_token));
+        switchMap(response => {
+          const newToken = response.access_token || (typeof response === 'string' ? response : null);
+          if (!newToken) {
+            throw new Error('Formato de token inválido');
+          }
+          return next.handle(this.addToken(request, newToken));
+        }),
+        catchError(err => {
+          this.refreshAttempts++;
+          if (this.refreshAttempts >= this.maxRefreshAttempts) {
+            this.authService.logout();
+            this.router.navigate(['/login']);
+            return throwError(() => new Error('Erro na recuperação do token. Faça login novamente.'));
+          }
+          return throwError(() => err);
         })
       );
     }
@@ -73,4 +132,5 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
       }
     });
   }
+
 }

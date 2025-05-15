@@ -21,7 +21,6 @@ export class CrudService {
 
     return this.http.get<T>(`${this.apiUrl}${endpoint}`, { params: httpParams }).pipe(
       catchError(error => {
-        console.error('Erro na requisição:', error);
         throw error;
       })
     );
@@ -30,7 +29,6 @@ export class CrudService {
   post<T>(endpoint: string, data: any): Observable<T> {
     return this.http.post<T>(`${this.apiUrl}${endpoint}`, data).pipe(
       catchError(error => {
-        console.error('Erro na requisição:', error);
         throw error;
       })
     );
@@ -39,7 +37,6 @@ export class CrudService {
   put<T>(endpoint: string, data: any): Observable<T> {
     return this.http.put<T>(`${this.apiUrl}${endpoint}`, data).pipe(
       catchError(error => {
-        console.error('Erro na requisição:', error);
         throw error;
       })
     );
@@ -48,9 +45,9 @@ export class CrudService {
   delete<T>(endpoint: string): Observable<T> {
     return this.http.delete<T>(`${this.apiUrl}${endpoint}`).pipe(
       catchError(error => {
-        console.error('Erro na requisição:', error);
         throw error;
       })
     );
   }
+  
 }

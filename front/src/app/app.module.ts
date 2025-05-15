@@ -64,8 +64,8 @@ import { RefreshTokenInterceptor } from './interceptors/refresh-token.intercepto
   providers: [
     CrudService,
     provideNgxMask(),
-    { provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
