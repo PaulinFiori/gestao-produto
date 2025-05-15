@@ -18,22 +18,15 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/auth/register`, { name, email, password });
   }
 
-  login(email: string, password: string, saveTempPassword: boolean = true): Observable<any> {
-    // Armazena credenciais temporárias para reautenticação automática quando necessário
-    if (saveTempPassword) {
-      sessionStorage.setItem('_temp_auth', btoa(password)); 
-    }
-    
+  login(email: string, password: string, saveTempPassword: boolean = true): Observable<any> {    
     return this.http.post(`${this.API_URL}/auth/login`, { email, senha: password })
       .pipe(
         tap((response: any) => {
           if (response && response.access_token) {
-            // Salvar apenas os tokens - as informações de usuário estão no token
             this.setTokens(response.access_token, response.refresh_token || null);
           }
         }),
         catchError(error => {
-          sessionStorage.removeItem('_temp_auth');
           throw error;
         })
       );
@@ -92,7 +85,6 @@ export class AuthService {
     );
   }
 
-  // Métodos para decodificar e acessar informações do token JWT
   private decodeToken(token: string): UserTokenClaims | null {
     try {
       const base64Url = token.split('.')[1];
@@ -110,10 +102,6 @@ export class AuthService {
     }
   }
   
-  /**
-   * Obtém as claims do token atual
-   * @returns Claims do token ou null se não houver token válido
-   */
   getUserClaims(): UserTokenClaims | null {
     const token = this.getToken();
     if (!token) return null;
@@ -150,11 +138,8 @@ export class AuthService {
   }
 
   logout(): void {
-    // Remover apenas os tokens e as credenciais temporárias
     localStorage.removeItem(this.ACCESS_TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-    localStorage.removeItem('user_data'); // Removemos por compatibilidade com o código anterior
-    sessionStorage.removeItem('_temp_auth');
   }
 
   setTokens(accessToken: string, refreshToken: string): void {

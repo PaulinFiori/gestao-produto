@@ -1,26 +1,44 @@
 <div class="sidenav-container">
-    <!-- Sidebar Menu -->
-    <div class="expanded-sidenav shadow" [class.hidden]="!showExpandedSidenav">
+    <div class="expanded-sidenav shadow d-flex flex-column" [class.hidden]="!showExpandedSidenav">
         <div class="expanded-header">
-            <div class="logo d-flex align-items-center justify-content-center">G</div>
-            <span class="white-text flex-grow-1">Gestão</span>
-            <button mat-icon-button class="d-lg-none" (click)="toggleSidenav()" [class.menu-open]="showExpandedSidenav">
-                <mat-icon class="white-icon">{{ showExpandedSidenav ? 'close' : 'menu' }}</mat-icon>
-            </button>
+            <div class="d-flex align-items-center">
+                <div class="logo d-flex align-items-center justify-content-center">G</div>
+                <span class="white-text flex-grow-1">Gestão</span>
+                <button mat-icon-button class="d-lg-none" (click)="toggleSidenav()" [class.menu-open]="showExpandedSidenav">
+                    <mat-icon class="white-icon">{{ showExpandedSidenav ? 'close' : 'menu' }}</mat-icon>
+                </button>
+            </div>
         </div>
         
-        <mat-nav-list class="nav-list-custom">
-            <a mat-list-item class="menu-item"
-                *ngFor="let item of menu"
-                [routerLink]="item.path"
-                routerLinkActive="active-link">
-                <mat-icon class="white-icon">{{ item.icon }}</mat-icon>
-                <span class="white-text menu-text menu-label-adjust">{{ item.label }}</span>
-            </a>
-        </mat-nav-list>
+        <div class="user-profile d-flex flex-column align-items-center py-2">
+            <div class="user-photo-container">
+                <img [src]="userPhotoUrl" alt="Foto do usuário" class="user-photo">
+            </div>
+            <span class="user-name white-text" style="margin-top: 6px;">{{ userName }}</span>
+        </div>
+        
+        <div class="menu-container flex-grow-1 d-flex flex-column">
+            <mat-nav-list class="nav-list-custom">
+                <a mat-list-item class="menu-item"
+                    *ngFor="let item of menu"
+                    [routerLink]="item.path"
+                    routerLinkActive="active-link">
+                    <mat-icon class="white-icon">{{ item.icon }}</mat-icon>
+                    <span class="white-text menu-text menu-label-adjust">{{ item.label }}</span>
+                </a>
+            </mat-nav-list>
+            
+            <div class="flex-grow-1"></div>
+            
+            <div class="logout-container">
+                <a mat-list-item class="menu-item logout-button d-flex align-items-center" (click)="logout()">
+                    <mat-icon class="white-icon" style="margin-right: 12px;">exit_to_app</mat-icon>
+                    <span class="white-text menu-text">Sair</span>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- Conteúdo Principal -->
     <div class="main-content" [class.menu-open]="showExpandedSidenav">
         <div class="content-header d-flex align-items-center p-3">
             <button mat-icon-button class="menu-toggle-button" (click)="toggleSidenav()" *ngIf="!showExpandedSidenav">

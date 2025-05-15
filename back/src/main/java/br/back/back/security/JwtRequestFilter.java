@@ -36,7 +36,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             String username = null;
             String jwtToken = null;
 
-            // Try to get token from Authorization header first
             String requestTokenHeader = request.getHeader("Authorization");
             if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
                 jwtToken = requestTokenHeader.substring(7);
@@ -51,7 +50,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 logger.debug("No valid Bearer token found in Authorization header");
             }
 
-            // If no token in header, try to get from cookie
             if (username == null) {
                 Optional<String> tokenFromCookie = jwtService.getAccessTokenFromRequest(request);
                 if (tokenFromCookie.isPresent()) {

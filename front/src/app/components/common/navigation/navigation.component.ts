@@ -5,6 +5,7 @@ import { MenuItem } from "src/app/models/menu/item-menu.model";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: "navigation",
@@ -16,15 +17,19 @@ export class NavigationComponent implements OnInit, OnDestroy {
     public menu: MenuItem[] = [];
     public isSmallScreen: boolean = false;
     public showExpandedSidenav: boolean = true;
+    public userName: string = '';
+    public userPhotoUrl: string = 'assets/images/default-avatar-icon.jpg';
     private destroy$ = new Subject<void>();
 
     constructor(
         private breakpointObserver: BreakpointObserver,
-        private router: Router
+        private router: Router,
+        private authService: AuthService
     ) { }
 
     ngOnInit(): void {
         this.menu = MENU;
+        this.loadUserInfo();
 
         this.breakpointObserver
             .observe([Breakpoints.Large, Breakpoints.XLarge])
@@ -38,7 +43,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
                 }
             });
 
-        // Fechar menu ao mudar de rota em telas pequenas
         this.router.events
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => {
@@ -55,5 +59,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     toggleSidenav(): void {
         this.showExpandedSidenav = !this.showExpandedSidenav;
+    }
+
+    loadUserInfo(): void {
+        const claims = this.authService.getUserClaims();
+        
+        if (claims) {
+            this.userName = claims.nome || 'Usuário';
+        }
+    }
+
+    logout(): void {
+        this.authService.logout();
+        this.router.navigate(['/login']);
     }
 }

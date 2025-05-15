@@ -28,7 +28,6 @@ public class JwtTokenUtil {
     private String secretString;
     
     private SecretKey getSigningKey() {
-        // Gerando uma chave segura para HS512 independente do tamanho da secret atual
         return Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
@@ -63,14 +62,12 @@ public class JwtTokenUtil {
 
     public String generateAccessToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        // Enriquecer o token com perfil e authorities
         claims = tokenEnhancer.enhanceToken(claims, userDetails);
         return doGenerateToken(claims, userDetails.getUsername(), false);
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        // Enriquecer o token de refresh com perfil e authorities
         claims = tokenEnhancer.enhanceToken(claims, userDetails);
         return doGenerateToken(claims, userDetails.getUsername(), true);
     }
