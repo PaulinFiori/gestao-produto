@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
-import { MENU } from "src/app/models/menu/menu";
+import { ADMIN_MENU, USER_MENU } from "src/app/models/menu/menu";
 import { MenuItem } from "src/app/models/menu/item-menu.model";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserPerfil } from 'src/app/models/user-roles';
 
 @Component({
     selector: "navigation",
@@ -19,7 +20,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
     public showExpandedSidenav: boolean = true;
     public userName: string = '';
     public userPhotoUrl: string = 'assets/images/default-avatar-icon.jpg';
+    public userPerfil: string | null = null;
     private destroy$ = new Subject<void>();
+    
+    // Função para obter o menu baseado no perfil do usuário
+    private getMenuByPerfil(perfil: string | null): MenuItem[] {
+        if (perfil === UserPerfil.ADMIN) {
+            return ADMIN_MENU;
+        } else if (perfil === UserPerfil.USER) {
+            return USER_MENU;
+        }
+        
+        // Retorna o menu de usuário comum como padrão
+        return USER_MENU;
+    }
 
     constructor(
         private breakpointObserver: BreakpointObserver,
@@ -28,9 +42,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        this.menu = MENU;
         this.loadUserInfo();
-
+        
         this.breakpointObserver
             .observe([Breakpoints.Large, Breakpoints.XLarge])
             .pipe(takeUntil(this.destroy$))
@@ -66,6 +79,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
         
         if (claims) {
             this.userName = claims.nome || 'Usuário';
+            this.userPerfil = claims.perfil;
+            
+            this.menu = this.getMenuByPerfil(this.userPerfil);
+        } else {
+            this.menu = this.getMenuByPerfil(null);
         }
     }
 

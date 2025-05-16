@@ -41,11 +41,12 @@ export class AuthService {
     }
     
     return this.http.post(
-      `${this.API_URL}/auth/refresh`, 
+      `${this.API_URL}/auth/refresh-token`, 
       { refresh_token: refreshToken },
       {
         headers: {
-          'Authorization': `Bearer ${accessToken || refreshToken}`
+          'Authorization': `Bearer ${accessToken || refreshToken}`,
+          'Content-Type': 'application/json'
         }
       }
     ).pipe(
@@ -60,11 +61,12 @@ export class AuthService {
       }),
       catchError(error => {
         return this.http.post(
-          `${this.API_URL}/auth/refresh`,
+          `${this.API_URL}/auth/refresh-token`,
           refreshToken,
           { 
             headers: {
-              'Content-Type': 'text/plain'
+              'Content-Type': 'text/plain',
+              'Authorization': `Bearer ${accessToken || refreshToken}`
             }
           }
         ).pipe(
@@ -77,7 +79,7 @@ export class AuthService {
               this.setTokens(response, refreshToken);
             }
           }),
-          catchError(error => {
+          catchError(() => {
             return of(null);
           })
         );

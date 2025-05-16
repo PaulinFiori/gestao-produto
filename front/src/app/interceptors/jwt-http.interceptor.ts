@@ -19,7 +19,7 @@ export class JwtHttpInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
     
-    if (request.url.includes('/auth/refresh')) {
+    if (request.url.includes('/auth/refresh-token')) {
       if (request.headers.has('Authorization')) {
         return next.handle(request);
       }
@@ -49,4 +49,5 @@ export class JwtHttpInterceptor implements HttpInterceptor {
     
     return next.handle(request);
   }
+  
 }

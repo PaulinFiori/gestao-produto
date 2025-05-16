@@ -36,7 +36,7 @@
         </mat-form-field>
 
         <div class="button-container">
-          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
+          <button mat-raised-button color="primary" type="submit">
             <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
             <span *ngIf="!isLoading">Entrar</span>
           </button>

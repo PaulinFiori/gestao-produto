@@ -34,7 +34,7 @@ server:
   port: 8080
 
 jwt:
-  secret: 2N1JH+jnAUTF+o+8E6T+EwdVdnoaNZthcGxeAbhEIG8=
+  secret: uG29MbXRgK6Vzp02VzJdF3RNb7Ny6ZH9nWZS4d6LPCvXmwt0vGb36WvZmTx4EL7aCWx7B8N5xQjamY3JqdKLT7zpSv88DtNS24pH
   access-token-validity-seconds: 3600
   refresh-token-validity-seconds: 2592000
   refresh-token-max-age: 30d

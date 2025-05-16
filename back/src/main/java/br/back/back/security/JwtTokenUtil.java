@@ -24,11 +24,16 @@ public class JwtTokenUtil {
     @Value("${jwt.refresh-token-validity-seconds:2592000}")
     private long refreshTokenValidityInSeconds;
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret:gPXp2r5u8x/A?D(G+KbPeShVmYq3t6w9z$B&E)H@McQfTjWnZr4u7x!A%D*F-JaN}")
     private String secretString;
     
+    private static SecretKey SIGNING_KEY;
+    
     private SecretKey getSigningKey() {
-        return Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        if (SIGNING_KEY == null) {
+            SIGNING_KEY = Keys.hmacShaKeyFor(secretString.getBytes());
+        }
+        return SIGNING_KEY;
     }
 
     public String getUsernameFromToken(String token) {
