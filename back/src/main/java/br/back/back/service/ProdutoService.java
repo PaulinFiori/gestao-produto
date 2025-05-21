@@ -32,6 +32,7 @@ public class ProdutoService extends BackService {
 
     @Transactional
     public Produto salvar(Produto produto) {
+        produto.setUsuario(getCurrentUser().getUsuario());
         return produtoRepository.save(produto);
     }
 

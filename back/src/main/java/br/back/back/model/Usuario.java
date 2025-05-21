@@ -35,12 +35,7 @@ public class Usuario {
     private String senha;
     
     @Column(length = 1)
-    private String perfil = "U"; // U = Usuário comum, A = Admin
-    
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "usuario_authorities", joinColumns = @JoinColumn(name = "usuario_id"))
-    @Column(name = "authority")
-    private List<String> authorities = new ArrayList<>();
+    private String perfil = "U";
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -57,26 +52,6 @@ public class Usuario {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
-    }
-    
-    public Collection<GrantedAuthority> getAuthorities() {
-        if (authorities == null || authorities.isEmpty()) {
-            // Se não houver authorities definidas, criar uma baseada no perfil
-            SimpleGrantedAuthority authority;
-            if ("A".equals(perfil)) {
-                authority = new SimpleGrantedAuthority("ROLE_ADMIN");
-            } else {
-                authority = new SimpleGrantedAuthority("ROLE_USER");
-            }
-            return Collections.singletonList(authority);
-        }
-        
-        // Converter a lista de strings em GrantedAuthority
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (String auth : authorities) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(auth));
-        }
-        return grantedAuthorities;
     }
 
     public String getNome() {
@@ -110,12 +85,5 @@ public class Usuario {
     public void setPerfil(String perfil) {
         this.perfil = perfil;
     }
-    
-    public List<String> getAuthoritiesList() {
-        return authorities;
-    }
-    
-    public void setAuthorities(List<String> authorities) {
-        this.authorities = authorities;
-    }
+
 } 

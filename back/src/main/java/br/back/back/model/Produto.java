@@ -47,7 +47,7 @@ public class Produto implements Serializable {
     public Produto() {
     }
     
-    public Produto(Long id, String nome, BigDecimal valor, Integer estoque, Cidade cidade, Tipo tipo, Fabricante fabricante) {
+    public Produto(Long id, String nome, BigDecimal valor, Integer estoque, Cidade cidade, Tipo tipo, Fabricante fabricante, Usuario usuario) {
         this.id = id;
         this.nome = nome;
         this.valor = valor;
@@ -55,6 +55,7 @@ public class Produto implements Serializable {
         this.cidade = cidade;
         this.tipo = tipo;
         this.fabricante = fabricante;
+        this.usuario = usuario;
     }
     
     public Long getId() {
@@ -112,6 +113,14 @@ public class Produto implements Serializable {
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
     
     @Override
     public boolean equals(Object o) {
@@ -138,6 +147,7 @@ public class Produto implements Serializable {
                 ", tipo=" + tipo +
                 ", cidade=" + cidade +
                 ", fabricante=" + fabricante +
+                ", usuario=" + usuario.getNome() +
                 '}';
     }
 } 

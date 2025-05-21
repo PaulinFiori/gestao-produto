@@ -22,20 +22,9 @@ public class JwtTokenEnhancer {
                 .ifPresent(usuario -> {
                     enhancedClaims.put("nome", usuario.getNome());
                     enhancedClaims.put("perfil", usuario.getPerfil());
-
-                    enhancedClaims.put("authorities",
-                            usuario.getAuthorities().stream()
-                                    .map(auth -> auth.getAuthority())
-                                    .collect(Collectors.toList())
-                    );
                 });
 
         return enhancedClaims;
     }
 
-    public Map<String, Object> enhanceToken(Map<String, Object> claims) {
-        Map<String, Object> enhancedClaims = new HashMap<>(claims);
-        enhancedClaims.put("perfil", "U");
-        return enhancedClaims;
-    }
 }
