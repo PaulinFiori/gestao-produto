@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Classe responsável por adicionar informações personalizadas aos tokens JWT
- */
 @Component
 public class JwtTokenEnhancer {
 

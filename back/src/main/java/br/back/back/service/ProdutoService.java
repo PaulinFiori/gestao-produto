@@ -11,13 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProdutoService {
+public class ProdutoService extends BackService {
 
     @Autowired
     private ProdutoRepository produtoRepository;
 
     @Transactional(readOnly = true)
     public List<Produto> listarTodos() {
+        if (getCurrentUser().isUsuario()) {
+            return produtoRepository.findAllByUsuarioId(getCurrentUser().getUsuario().getId());
+        }
+
         return produtoRepository.findAll();
     }
 

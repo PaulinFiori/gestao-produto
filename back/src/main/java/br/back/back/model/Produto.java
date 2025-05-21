@@ -38,6 +38,11 @@ public class Produto implements Serializable {
     @JoinColumn(name = "fabricante_id", nullable = false)
     @JsonIgnoreProperties({"produtos"})
     private Fabricante fabricante;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonIgnoreProperties({"produtos"})
+    private Usuario usuario;
     
     public Produto() {
     }
