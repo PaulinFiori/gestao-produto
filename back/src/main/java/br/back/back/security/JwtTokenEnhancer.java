@@ -3,9 +3,11 @@ package br.back.back.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
 import br.back.back.repository.UsuarioRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,12 @@ public class JwtTokenEnhancer {
                     enhancedClaims.put("nome", usuario.getNome());
                     enhancedClaims.put("perfil", usuario.getPerfil());
                 });
-
+        
+        List<String> authorities = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+        enhancedClaims.put("authorities", authorities);
+        
         return enhancedClaims;
     }
 
