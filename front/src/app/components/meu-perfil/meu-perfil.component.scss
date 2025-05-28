@@ -1,0 +1,68 @@
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.profile-card {
+  margin-bottom: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+mat-card-header {
+  margin-bottom: 24px;
+  
+  mat-card-title {
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+mat-card-content {
+  padding: 0;
+}
+
+.profile-info {
+  .info-row {
+    display: flex;
+    margin-bottom: 16px;
+    
+    strong {
+      width: 150px;
+      font-weight: 500;
+    }
+    
+    span {
+      flex: 1;
+    }
+  }
+}
+
+.form-row {
+  margin-bottom: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.action-buttons {
+  margin-top: 24px;
+  
+  &.edit-buttons {
+    display: flex;
+    justify-content: flex-end;
+    
+    button {
+      margin-left: 12px;
+    }
+  }
+}
+
+.spinner-button {
+  display: inline-block;
+  margin: 0 8px;
+  vertical-align: middle;
+}

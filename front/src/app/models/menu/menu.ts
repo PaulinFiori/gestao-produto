@@ -20,6 +20,11 @@ export const ADMIN_MENU: MenuItem[] = [
         label: 'Usuários',
         icon: 'people',
         path: '/usuarios'
+    },
+    {
+        label: 'Meu Perfil',
+        icon: 'person',
+        path: '/meu-perfil'
     }
 ];
 
@@ -33,6 +38,11 @@ export const USER_MENU: MenuItem[] = [
         label: 'Produtos',
         icon: 'inventory',
         path: '/produtos'
+    },
+    {
+        label: 'Meu Perfil',
+        icon: 'person',
+        path: '/meu-perfil'
     }
 ];
 

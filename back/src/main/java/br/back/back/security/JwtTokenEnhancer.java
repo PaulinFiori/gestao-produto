@@ -24,6 +24,7 @@ public class JwtTokenEnhancer {
                 .ifPresent(usuario -> {
                     enhancedClaims.put("nome", usuario.getNome());
                     enhancedClaims.put("perfil", usuario.getPerfil());
+                    enhancedClaims.put("id", usuario.getId());
                 });
 
         List<String> authorities = userDetails.getAuthorities().stream()

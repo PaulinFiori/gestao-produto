@@ -1,0 +1,82 @@
+<div class="container-fluid">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox">
+          <div class="ibox-content">
+            <div *ngIf="carregando" class="loading-spinner">
+              <mat-spinner diameter="50"></mat-spinner>
+            </div>
+            
+            <div *ngIf="!carregando" class="row">
+              <div class="col-md-10 mx-auto">
+                <mat-card class="profile-card">
+                  <mat-card-header>
+                    <mat-card-title>Meu Perfil</mat-card-title>
+                  </mat-card-header>
+                  
+                  <mat-card-content>
+                    <!-- Modo de visualização -->
+                    <div *ngIf="!editando" class="profile-info">
+                      <div class="info-row">
+                        <strong>Nome:</strong>
+                        <span>{{ usuarioAtual.name }}</span>
+                      </div>
+                      <div class="info-row">
+                        <strong>Email:</strong>
+                        <span>{{ usuarioAtual.email }}</span>
+                      </div>
+                      <div class="info-row">
+                        <strong>Data de cadastro:</strong>
+                        <span>{{ usuarioAtual.createdAt | date: 'dd/MM/yyyy' }}</span>
+                      </div>
+                      
+                      <div class="action-buttons">
+                        <button mat-raised-button color="primary" (click)="habilitarEdicao()">
+                          <mat-icon>edit</mat-icon> Editar Perfil
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <!-- Modo de edição -->
+                    <div *ngIf="editando">
+                      <form [formGroup]="perfilForm" (ngSubmit)="salvarPerfil()">
+                        <div class="form-row">
+                          <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Nome</mat-label>
+                            <input matInput formControlName="name" placeholder="Digite seu nome">
+                            <mat-error *ngIf="perfilForm.get('name')?.hasError('required')">Nome é obrigatório</mat-error>
+                            <mat-error *ngIf="perfilForm.get('name')?.hasError('minlength')">Nome deve ter pelo menos 3 caracteres</mat-error>
+                          </mat-form-field>
+                        </div>
+                        
+                        <div class="form-row">
+                          <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email" placeholder="Digite seu email">
+                            <mat-error *ngIf="perfilForm.get('email')?.hasError('required')">Email é obrigatório</mat-error>
+                            <mat-error *ngIf="perfilForm.get('email')?.hasError('email')">Digite um email válido</mat-error>
+                          </mat-form-field>
+                        </div>
+                        
+                        <div class="action-buttons edit-buttons">
+                          <button mat-button type="button" (click)="cancelarEdicao()" [disabled]="salvando">
+                            Cancelar
+                          </button>
+                          <button mat-raised-button color="primary" type="submit" [disabled]="perfilForm.invalid || salvando">
+                            <mat-spinner *ngIf="salvando" diameter="20" class="spinner-button"></mat-spinner>
+                            <span *ngIf="!salvando">Salvar Alterações</span>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

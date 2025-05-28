@@ -9,6 +9,8 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { AuthGuard } from './guards/auth.guard';
 import { PerfilGuard } from './guards/perfil.guard';
 import { BlankLayoutComponent } from './components/common/layouts/blankLayout.component';
+import { MeuPerfilComponent } from './components/meu-perfil/meu-perfil.component';
+
 const routes: Routes = [
   {
     path: "",
@@ -49,6 +51,11 @@ const routes: Routes = [
         component: ProdutosComponent,
         canActivate: [PerfilGuard],
         data: { perfil: ['A', 'U'] }
+      },
+      {
+        path: "meu-perfil",
+        component: MeuPerfilComponent,
+        canActivate: [AuthGuard]
       },
     ]
   }

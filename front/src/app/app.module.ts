@@ -12,6 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { ProdutosModule } from './components/produtos/produtos.module';
 import { CadastroGeraisModule } from './components/cadastro-gerais/cadastro-gerais.module';
+import { MeuPerfilModule } from './components/meu-perfil/meu-perfil.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CrudService } from './services/crud.service';
 import { ToastrModule } from 'ngx-toastr';
@@ -59,7 +60,8 @@ import { RefreshTokenInterceptor } from './interceptors/refresh-token.intercepto
     LayoutsModule,
     HomeModule,
     ProdutosModule,
-    CadastroGeraisModule
+    CadastroGeraisModule,
+    MeuPerfilModule
   ],
   providers: [
     CrudService,
