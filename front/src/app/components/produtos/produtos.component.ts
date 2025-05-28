@@ -6,6 +6,8 @@ import { ModalProdutoComponent } from './modal-produto/modal-produto.component';
 import { CrudService } from '../../services/crud.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmacaoDialogComponent } from '../common/confirmacao-dialog/confirmacao-dialog.component';
+import { ROLE_ADMIN, ROLE_USER } from '../../config/roles';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-produtos',
@@ -16,18 +18,35 @@ export class ProdutosComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) 
   paginator!: MatPaginator;
-  
-  public colunas: string[] = ['nome', 'fabricante', 'tipo', 'preco', 'acoes'];
+
+  public isAdmin: boolean = false;
+  public isUser: boolean = false;
+
+  public colunas: string[] = [];
   public dataSource = new MatTableDataSource<any>();
 
   constructor(
     private dialog: MatDialog,
     private crudService: CrudService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
+    this.userService.loadUserInfo();
     this.carregarProdutos();
+    this.checkPermissions();
+
+    if(this.isAdmin) {
+      this.colunas = ['nome', 'fabricante', 'tipo', 'preco', 'usuario', 'acoes'];
+    } else {
+      this.colunas = ['nome', 'fabricante', 'tipo', 'preco', 'acoes'];
+    }
+  }
+
+  checkPermissions() {
+    this.isAdmin = this.userService.hasPermission(ROLE_ADMIN);
+    this.isUser = this.userService.hasPermission(ROLE_USER);
   }
 
   ngAfterViewInit(): void {

@@ -43,7 +43,6 @@
                         <mat-cell *matCellDef="let produto"> R$ {{ produto.valor | number:'1.2-2' }} </mat-cell>
                     </ng-container>
 
-                    <!-- so mostra se for admin -->
                     <ng-container matColumnDef="usuario">
                         <mat-header-cell *matHeaderCellDef> Usuário </mat-header-cell>
                         <mat-cell *matCellDef="let produto"> {{ produto.usuario.name }} </mat-cell>

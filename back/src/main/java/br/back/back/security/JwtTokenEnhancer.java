@@ -25,7 +25,7 @@ public class JwtTokenEnhancer {
                     enhancedClaims.put("nome", usuario.getNome());
                     enhancedClaims.put("perfil", usuario.getPerfil());
                 });
-        
+
         List<String> authorities = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
