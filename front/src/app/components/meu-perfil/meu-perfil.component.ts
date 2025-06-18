@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CrudService } from '../../services/crud.service';
 import { Usuario } from '../../models/usuario.model';
 import { UserService } from '../../services/user.service';
@@ -30,11 +30,28 @@ export class MeuPerfilComponent implements OnInit {
     this.carregarDadosUsuario();
   }
   
+  passwordMismatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+
+    if (!password && !confirmPassword) {
+      return null;
+    }
+
+    if (password !== confirmPassword) {
+      return { passwordMismatch: true };
+    }
+
+    return null;
+  }
+
   inicializarFormulario(): void {
     this.perfilForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]]
-    });
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.minLength(6)]],
+      confirmPassword: ['']
+    }, { validators: this.passwordMismatchValidator });
   }
 
   carregarDadosUsuario(): void {
@@ -67,6 +84,8 @@ export class MeuPerfilComponent implements OnInit {
   cancelarEdicao(): void {
     this.editando = false;
     this.preencherFormulario(this.usuarioAtual);
+    this.perfilForm.get('password')?.reset('');
+    this.perfilForm.get('confirmPassword')?.reset('');
   }
 
   salvarPerfil(): void {
@@ -75,9 +94,15 @@ export class MeuPerfilComponent implements OnInit {
     }
 
     this.salvando = true;
-    const usuarioAtualizado = {
-      ...this.perfilForm.value
+    const { name, email, password } = this.perfilForm.value;
+    const usuarioAtualizado: any = {
+      name,
+      email
     };
+
+    if (password) {
+      usuarioAtualizado.password = password;
+    }
 
     this.crudService.put<Usuario>('usuarios/' + this.usuarioAtual.id, usuarioAtualizado).subscribe({
       next: (response: Usuario) => {
@@ -85,6 +110,10 @@ export class MeuPerfilComponent implements OnInit {
         this.editando = false;
         this.salvando = false;
         this.toastr.success('Perfil atualizado com sucesso!');
+
+        this.preencherFormulario(response);
+        this.perfilForm.get('password')?.reset('');
+        this.perfilForm.get('confirmPassword')?.reset('');
         
         if (this.userService.getUserInfo().name !== response.name) {
           this.userService.loadUserInfo();

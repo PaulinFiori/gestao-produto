@@ -58,6 +58,22 @@
                             <mat-error *ngIf="perfilForm.get('email')?.hasError('email')">Digite um email válido</mat-error>
                           </mat-form-field>
                         </div>
+
+                        <div class="form-row">
+                          <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Nova Senha</mat-label>
+                            <input matInput formControlName="password" type="password" placeholder="Digite a nova senha" autocomplete="new-password">
+                            <mat-error *ngIf="perfilForm.get('password')?.hasError('minlength')">A senha deve ter pelo menos 6 caracteres</mat-error>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="form-row">
+                          <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Confirmar Nova Senha</mat-label>
+                            <input matInput formControlName="confirmPassword" type="password" placeholder="Confirme a nova senha" autocomplete="new-password">
+                            <mat-error *ngIf="perfilForm.hasError('passwordMismatch')">As senhas não coincidem</mat-error>
+                          </mat-form-field>
+                        </div>
                         
                         <div class="action-buttons edit-buttons">
                           <button mat-button type="button" (click)="cancelarEdicao()" [disabled]="salvando">

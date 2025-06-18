@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { BasicLayoutComponent } from './components/common/layouts/basicLayout.component';
 import { CadastroGeraisComponent } from './components/cadastro-gerais/cadastro-gerais.component';
 import { ProdutosComponent } from './components/produtos/produtos.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -51,6 +52,12 @@ const routes: Routes = [
         component: ProdutosComponent,
         canActivate: [PerfilGuard],
         data: { perfil: ['A', 'U'] }
+      },
+      {
+        path: "usuarios",
+        component: UsuariosComponent,
+        canActivate: [PerfilGuard],
+        data: { perfil: ['A'] }
       },
       {
         path: "meu-perfil",

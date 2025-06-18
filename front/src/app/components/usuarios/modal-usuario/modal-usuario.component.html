@@ -1,0 +1,35 @@
+<form [formGroup]="form" (ngSubmit)="salvar()" class="form-container">
+    <h2>{{ isEdit ? 'Editar' : 'Adicionar' }} Usuário</h2>
+
+    <mat-form-field appearance="fill" class="full-width d-block">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" required />
+        <mat-error *ngIf="form.get('name')?.errors?.['required']">Nome é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width d-block">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" required />
+        <mat-error *ngIf="form.get('email')?.errors?.['required']">Email é obrigatório</mat-error>
+        <mat-error *ngIf="form.get('email')?.errors?.['email']">Email inválido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width d-block">
+        <mat-label>Perfil</mat-label>
+        <mat-select formControlName="perfil" required>
+            <mat-option *ngFor="let perfil of perfis" [value]="perfil.value">{{ perfil.viewValue }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('perfil')?.errors?.['required']">Perfil é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width d-block" *ngIf="!isEdit">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" formControlName="password" required />
+        <mat-error *ngIf="form.get('password')?.errors?.['required']">Senha é obrigatória</mat-error>
+    </mat-form-field>
+
+    <div class="actions">
+        <button mat-button type="button" (click)="cancelar()">Cancelar</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">{{ isEdit ? 'Atualizar' : 'Salvar' }}</button>
+    </div>
+</form>

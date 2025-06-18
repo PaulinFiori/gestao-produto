@@ -1,0 +1,98 @@
+.wrapper-content {
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar-produtos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    background-color: #2c3e50 !important;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.btn-add {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+mat-card {
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.table-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: auto;
+}
+
+mat-table {
+    width: 100%;
+    flex: 1;
+}
+
+::ng-deep .mat-mdc-raised-button.mat-primary,
+::ng-deep .mat-mdc-fab.mat-primary,
+::ng-deep .mat-mdc-mini-fab.mat-primary,
+::ng-deep .mat-mdc-flat-button.mat-primary {
+    background-color: #2c3e50 !important;
+}
+
+.titulo-toolbar {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* Ajustar para que o paginator não ocupe espaço desnecessário */
+::ng-deep .mat-mdc-paginator {
+    background: transparent;
+}
+
+/* Estilizar os ícones e botões de ação */
+.mat-column-acoes {
+    max-width: 120px;
+}
+
+/* Estilizar os botões de edição na cor do tema */
+::ng-deep .mat-mdc-icon-button.mat-primary {
+    color: #2c3e50 !important;
+}
+
+// Estilos para o card
+.card {
+    border: none;
+    
+    .card-header {
+        border-bottom: none;
+        background-color: #2c3e50;
+    }
+}
+
+// Estilos para a tabela
+.mat-table {
+    width: 100%;
+    background: transparent;
+    
+    .mat-header-row {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+    
+    .mat-row {
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+    }
+}
+
+

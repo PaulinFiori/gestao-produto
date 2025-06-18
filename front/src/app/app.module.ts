@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { ProdutosModule } from './components/produtos/produtos.module';
+import { UsuariosModule } from './components/usuarios/usuarios.module';
 import { CadastroGeraisModule } from './components/cadastro-gerais/cadastro-gerais.module';
 import { MeuPerfilModule } from './components/meu-perfil/meu-perfil.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -61,7 +62,8 @@ import { RefreshTokenInterceptor } from './interceptors/refresh-token.intercepto
     HomeModule,
     ProdutosModule,
     CadastroGeraisModule,
-    MeuPerfilModule
+    MeuPerfilModule,
+    UsuariosModule,
   ],
   providers: [
     CrudService,
