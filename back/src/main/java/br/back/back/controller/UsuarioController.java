@@ -3,6 +3,7 @@ package br.back.back.controller;
 import br.back.back.model.Usuario;
 import br.back.back.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,23 @@ public class UsuarioController {
 
         return usuarioOpt.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<Usuario> adicionarUsuario(@RequestBody Usuario usuario) {
+        Usuario usuarioSalvo = usuarioService.salvar(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvo);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removerUsuario(@PathVariable Long id) {
+        boolean removed = usuarioService.remover(id);
+
+        if (removed) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

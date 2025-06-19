@@ -87,7 +87,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   excluirUsuario(usuario: any) {
     const dialogRef = this.dialog.open(ConfirmacaoDialogComponent, {
       width: '400px',
-      data: { mensagem: `Deseja realmente excluir ${usuario.nome}?` }
+      data: { mensagem: `Deseja realmente excluir ${usuario.name}?` }
     });
 
     dialogRef.afterClosed().subscribe(result => {

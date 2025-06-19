@@ -50,4 +50,20 @@ public class UsuarioService {
         return Optional.empty();
     }
 
+    public Usuario salvar(Usuario usuario) {
+        if(usuario.getSenha() != null && !usuario.getSenha().isEmpty()) {
+            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        }
+
+        return usuarioRepository.save(usuario);
+    }
+
+    public boolean remover(Long id) {
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }

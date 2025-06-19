@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
     styleUrls: ['./modal-usuario.component.scss']
 })
 export class ModalUsuarioComponent implements OnInit {
+    
     form: FormGroup;
     isEdit = false;
     perfis = [
@@ -17,7 +18,7 @@ export class ModalUsuarioComponent implements OnInit {
         { value: 'U', viewValue: 'Usuário' }
     ];
 
-    //falta fazer o editar e deletar, fazer upload de foto de perfil, e recuperar senha
+    //falta fazer upload de foto de perfil, e recuperar senha
     constructor(
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<ModalUsuarioComponent>,
@@ -31,7 +32,8 @@ export class ModalUsuarioComponent implements OnInit {
             name: [data?.name || '', Validators.required],
             email: [data?.email || '', [Validators.required, Validators.email]],
             perfil: [data?.perfil || '', Validators.required],
-            password: ['', this.isEdit ? [] : Validators.required]        });
+            password: ['', this.isEdit ? [] : Validators.required]   
+        });
     }
 
     ngOnInit(): void {
