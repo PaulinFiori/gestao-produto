@@ -14,8 +14,16 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  register(name: string, email: string, password: string): Observable<any> {
-    return this.http.post(`${this.API_URL}/auth/register`, { name, email, password });
+  register(name: string, email: string, password: string, photo: File | null): Observable<any> {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('password', password);
+    if (photo) {
+      formData.append('photo', photo, photo.name);
+    }
+
+    return this.http.post(`${this.API_URL}/auth/register`, formData);
   }
 
   login(email: string, password: string, saveTempPassword: boolean = true): Observable<any> {    

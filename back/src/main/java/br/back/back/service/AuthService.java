@@ -5,6 +5,7 @@ import br.back.back.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class AuthService {
@@ -15,7 +16,10 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Usuario register(String nome, String email, String password) {
+    @Autowired
+    private FileStorageService fileStorageService;
+
+    public Usuario register(String nome, String email, String password, MultipartFile photo) {
         if (usuarioRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email já cadastrado");
         }
@@ -24,6 +28,11 @@ public class AuthService {
         usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setSenha(passwordEncoder.encode(password));
+
+        if (photo != null && !photo.isEmpty()) {
+            String fileName = fileStorageService.storeFile(photo);
+            usuario.setFoto(fileName);
+        }
 
         return usuarioRepository.save(usuario);
     }

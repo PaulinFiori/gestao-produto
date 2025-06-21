@@ -14,6 +14,8 @@ export class RegisterComponent {
   hidePassword = true;
   hideConfirmPassword = true;
   isLoading = false;
+  photoURL: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
 
   constructor(
     private fb: NonNullableFormBuilder,
@@ -33,7 +35,8 @@ export class RegisterComponent {
       }],
       confirmPassword: ['', {
         validators: [Validators.required]
-      }]
+      }],
+      photo: [null]
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -44,12 +47,28 @@ export class RegisterComponent {
       ? null : { mismatch: true };
   }
 
+  onFileSelected(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const file = target.files && target.files[0];
+
+    if (file) {
+      this.selectedFile = file;
+      this.registerForm.patchValue({ photo: file });
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.photoURL = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading = true;
       const { name, email, password } = this.registerForm.value;
 
-      this.authService.register(name, email, password).subscribe({
+      this.authService.register(name, email, password, this.selectedFile).subscribe({
         next: () => {
           this.snackBar.open('Cadastro realizado com sucesso!', 'Fechar', { duration: 3000 });
           this.router.navigate(['/login']);

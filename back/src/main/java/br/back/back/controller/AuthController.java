@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -32,9 +35,18 @@ public class AuthController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @PostMapping("/register")
-    public ResponseEntity<Usuario> register(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(authService.register(usuario.getNome(), usuario.getEmail(), usuario.getSenha()));
+    @PostMapping(value = "/register", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> register(
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        try {
+            Usuario newUser = authService.register(name, email, password, photo);
+            return ResponseEntity.ok(newUser);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error registering user: " + e.getMessage());
+        }
     }
 
     @PostMapping("/login")
