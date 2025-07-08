@@ -23,7 +23,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
     public userPerfil: string | null = null;
     private destroy$ = new Subject<void>();
     
-    // Função para obter o menu baseado no perfil do usuário
     private getMenuByPerfil(perfil: string | null): MenuItem[] {
         if (perfil === UserPerfil.ADMIN) {
             return ADMIN_MENU;
@@ -31,7 +30,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
             return USER_MENU;
         }
         
-        // Retorna o menu de usuário comum como padrão
         return USER_MENU;
     }
 
@@ -80,6 +78,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         if (claims) {
             this.userName = claims.nome || 'Usuário';
             this.userPerfil = claims.perfil;
+            this.userPhotoUrl = claims.foto || 'assets/images/default-avatar-icon.jpg';
             
             this.menu = this.getMenuByPerfil(this.userPerfil);
         } else {
@@ -91,4 +90,5 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.authService.logout();
         this.router.navigate(['/login']);
     }
+
 }

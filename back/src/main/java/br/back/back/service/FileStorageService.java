@@ -1,5 +1,7 @@
 package br.back.back.service;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,12 +15,14 @@ import java.util.UUID;
 @Service
 public class FileStorageService {
 
-    private final Path fileStorageLocation;
+    private Path fileStorageLocation;
 
-    public FileStorageService() {
-        // Define the path to the upload directory.
-        // Using System.getProperty("user.home") makes it portable.
-        this.fileStorageLocation = Paths.get(System.getProperty("user.home.Projetos.gestao.front.src.assets"), "images").toAbsolutePath().normalize();
+    @Value("${storage.location}")
+    private String storageLocation;
+
+    @PostConstruct
+    public void init() {
+        this.fileStorageLocation = Paths.get(storageLocation).toAbsolutePath().normalize();
 
         try {
             Files.createDirectories(this.fileStorageLocation);

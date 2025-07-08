@@ -7,6 +7,7 @@ export interface UserTokenClaims {
   nome: string;
   sub: string;
   perfil: string;
+  foto: string;
   authorities: string[];
   exp: number;
   iat: number;

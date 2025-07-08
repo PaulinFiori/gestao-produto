@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignorar arquivo de configuração sensível do Spring Boot
+src/main/resources/application.yml

@@ -24,6 +24,7 @@ public class JwtTokenEnhancer {
                 .ifPresent(usuario -> {
                     enhancedClaims.put("nome", usuario.getNome());
                     enhancedClaims.put("perfil", usuario.getPerfil());
+                    enhancedClaims.put("foto", "http://localhost:4200/assets/images/" + usuario.getFoto());
                     enhancedClaims.put("id", usuario.getId());
                 });
 
