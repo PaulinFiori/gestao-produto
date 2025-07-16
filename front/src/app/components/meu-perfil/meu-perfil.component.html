@@ -18,6 +18,9 @@
                   <mat-card-content>
                     <!-- Modo de visualização -->
                     <div *ngIf="!editando" class="profile-info">
+                      <div class="user-photo-container">
+                        <img [src]="userPhotoUrl" alt="Foto do usuário" class="user-photo">
+                      </div>
                       <div class="info-row">
                         <strong>Nome:</strong>
                         <span>{{ usuarioAtual.name }}</span>
@@ -40,6 +43,11 @@
                     
                     <!-- Modo de edição -->
                     <div *ngIf="editando">
+                      <div class="d-flex flex-column align-items-center mb-3">
+                        <img [src]="photoURL || userPhotoUrl" alt="Foto do Usuário" class="user-photo-preview mb-2" (click)="fileInput.click()">
+                        <button type="button" mat-stroked-button (click)="fileInput.click()">Selecionar Foto</button>
+                        <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" class="d-none">
+                      </div>
                       <form [formGroup]="perfilForm" (ngSubmit)="salvarPerfil()">
                         <div class="form-row">
                           <mat-form-field appearance="outline" class="full-width">

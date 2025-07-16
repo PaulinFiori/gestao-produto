@@ -11,12 +11,15 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./meu-perfil.component.scss']
 })
 export class MeuPerfilComponent implements OnInit {
+  photoURL: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
 
   usuarioAtual: Usuario = new Usuario();
   perfilForm!: FormGroup;
   carregando: boolean = true;
   salvando: boolean = false;
   editando: boolean = false;
+  public userPhotoUrl: string = 'assets/images/default-avatar-icon.jpg';
 
   constructor(
     private crudService: CrudService,
@@ -60,6 +63,7 @@ export class MeuPerfilComponent implements OnInit {
       next: (response: Usuario) => {
         this.usuarioAtual = response;
         this.preencherFormulario(response);
+        this.userPhotoUrl = "http://localhost:4200/assets/images/" + response.foto || 'assets/images/default-avatar-icon.jpg';
         this.carregando = false;
       },
       error: (error: any) => {
@@ -88,6 +92,19 @@ export class MeuPerfilComponent implements OnInit {
     this.perfilForm.get('confirmPassword')?.reset('');
   }
 
+  onFileSelected(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const file = target.files && target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.photoURL = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   salvarPerfil(): void {
     if (this.perfilForm.invalid) {
       return;
@@ -104,26 +121,51 @@ export class MeuPerfilComponent implements OnInit {
       usuarioAtualizado.password = password;
     }
 
-    this.crudService.put<Usuario>('usuarios/' + this.usuarioAtual.id, usuarioAtualizado).subscribe({
-      next: (response: Usuario) => {
-        this.usuarioAtual = response;
-        this.editando = false;
-        this.salvando = false;
-        this.toastr.success('Perfil atualizado com sucesso!');
-
-        this.preencherFormulario(response);
-        this.perfilForm.get('password')?.reset('');
-        this.perfilForm.get('confirmPassword')?.reset('');
-        
-        if (this.userService.getUserInfo().name !== response.name) {
-          this.userService.loadUserInfo();
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      if (password) formData.append('password', password);
+      formData.append('foto', this.selectedFile, this.selectedFile.name);
+      this.crudService.putFormData<Usuario>('usuarios/' + this.usuarioAtual.id + '/com-foto', formData).subscribe({
+        next: (response: Usuario) => {
+          this.usuarioAtual = response;
+          this.editando = false;
+          this.salvando = false;
+          this.toastr.success('Perfil atualizado com sucesso!');
+          this.preencherFormulario(response);
+          this.perfilForm.get('password')?.reset('');
+          this.perfilForm.get('confirmPassword')?.reset('');
+          if (this.userService.getUserInfo().name !== response.name) {
+            this.userService.loadUserInfo();
+          }
+        },
+        error: (error: any) => {
+          console.error('Erro ao atualizar perfil:', error);
+          this.salvando = false;
+          this.toastr.error('Erro ao atualizar perfil');
         }
-      },
-      error: (error: any) => {
-        console.error('Erro ao atualizar perfil:', error);
-        this.salvando = false;
-        this.toastr.error('Erro ao atualizar perfil');
-      }
-    });
+      });
+    } else {
+      this.crudService.put<Usuario>('usuarios/' + this.usuarioAtual.id, usuarioAtualizado).subscribe({
+        next: (response: Usuario) => {
+          this.usuarioAtual = response;
+          this.editando = false;
+          this.salvando = false;
+          this.toastr.success('Perfil atualizado com sucesso!');
+          this.preencherFormulario(response);
+          this.perfilForm.get('password')?.reset('');
+          this.perfilForm.get('confirmPassword')?.reset('');
+          if (this.userService.getUserInfo().name !== response.name) {
+            this.userService.loadUserInfo();
+          }
+        },
+        error: (error: any) => {
+          console.error('Erro ao atualizar perfil:', error);
+          this.salvando = false;
+          this.toastr.error('Erro ao atualizar perfil');
+        }
+      });
+    }
   }
 }

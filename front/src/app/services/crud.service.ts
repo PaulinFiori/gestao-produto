@@ -34,8 +34,21 @@ export class CrudService {
     );
   }
 
+  // Envia JSON puro para endpoints que esperam application/json
   put<T>(endpoint: string, data: any): Observable<T> {
-    return this.http.put<T>(`${this.apiUrl}${endpoint}`, data).pipe(
+    return this.http.put<T>(`${this.apiUrl}${endpoint}`, data, {
+      headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+      catchError(error => {
+        throw error;
+      })
+    );
+  }
+
+  // Envia FormData para endpoints que esperam multipart/form-data
+  putFormData<T>(endpoint: string, formData: FormData): Observable<T> {
+    // Não defina headers manualmente! O browser faz isso automaticamente para FormData.
+    return this.http.put<T>(`${this.apiUrl}${endpoint}`, formData).pipe(
       catchError(error => {
         throw error;
       })

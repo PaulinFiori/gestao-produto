@@ -5,6 +5,7 @@ export class Usuario {
     perfil?: string;
     createdAt?: string;
     updatedAt?: string;
+    foto?: string;
 
     constructor(data?: Partial<Usuario>) {
         this.id = data?.id;
@@ -13,6 +14,7 @@ export class Usuario {
         this.perfil = data?.perfil || '';
         this.createdAt = data?.createdAt || '';
         this.updatedAt = data?.updatedAt || '';
+        this.foto = data?.foto || '';
     }
 
 }

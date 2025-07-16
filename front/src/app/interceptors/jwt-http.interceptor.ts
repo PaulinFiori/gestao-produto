@@ -37,13 +37,21 @@ export class JwtHttpInterceptor implements HttpInterceptor {
     
     const accessToken = this.authService.getToken();
     if (accessToken) {
-      const clonedRequest = request.clone({
-        setHeaders: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      
+      let clonedRequest = request;
+      if (!(request.body instanceof FormData)) {
+        clonedRequest = request.clone({
+          setHeaders: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+      } else {
+        clonedRequest = request.clone({
+          setHeaders: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+      }
       return next.handle(clonedRequest);
     }
     
