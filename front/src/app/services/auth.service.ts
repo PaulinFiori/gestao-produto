@@ -40,6 +40,10 @@ export class AuthService {
       );
   }
 
+  recoverPassword(email: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/auth/recover-password`, { email });
+  }
+
   refreshToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
     const accessToken = this.getToken();

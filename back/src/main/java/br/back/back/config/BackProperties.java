@@ -10,7 +10,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "back")
+@ConfigurationProperties(prefix = "spring")
 @Data
 public class BackProperties {
 

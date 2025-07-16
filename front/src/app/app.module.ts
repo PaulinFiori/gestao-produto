@@ -24,16 +24,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { LoginComponent } from './components/auth/login/login.component';
-import { RegisterComponent } from './components/auth/register/register.component';
+import { AuthModule } from './components/auth/auth.module';
 import { JwtHttpInterceptor } from './interceptors/jwt-http.interceptor';
 import { RefreshTokenInterceptor } from './interceptors/refresh-token.interceptor';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +46,7 @@ import { RefreshTokenInterceptor } from './interceptors/refresh-token.intercepto
     MatProgressSpinnerModule,
     MatSnackBarModule,
     ReactiveFormsModule,
+    AuthModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({

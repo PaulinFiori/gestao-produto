@@ -44,10 +44,13 @@
       </form>
     </mat-card-content>
 
-    <mat-card-actions class="center-actions">
+    <div class="login-links-container">
       <button mat-button color="accent" (click)="goToRegister()">
         Não tem uma conta? Cadastre-se
       </button>
-    </mat-card-actions>
+      <button mat-button color="accent" (click)="recoverPassword()">
+        Esqueceu a senha?
+      </button>
+    </div>
   </mat-card>
-</div> 
+</div>

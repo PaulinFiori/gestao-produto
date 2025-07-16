@@ -1,6 +1,7 @@
 package br.back.back.controller;
 
 import br.back.back.dto.LoginRequest;
+import br.back.back.dto.RecoverPasswordRequest;
 import br.back.back.model.Usuario;
 import br.back.back.security.JwtService;
 import br.back.back.security.UserDetailsServiceImpl;
@@ -64,6 +65,12 @@ public class AuthController {
             "access_token", accessToken,
             "refresh_token", refreshToken
         ));
+    }
+
+    @PostMapping("/recover-password")
+    public ResponseEntity<?> recoverPassword(@RequestBody RecoverPasswordRequest request) {
+        authService.recoverPassword(request.getEmail());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/refresh-token")

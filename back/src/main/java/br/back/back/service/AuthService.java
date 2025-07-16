@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class AuthService {
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
@@ -35,6 +38,15 @@ public class AuthService {
         }
 
         return usuarioRepository.save(usuario);
+    }
+
+    public void recoverPassword(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
+        if (usuario != null) {
+            String subject = "Recuperação de Senha";
+            String text = "Olá,\n\nRecebemos uma solicitação para redefinir sua senha. Se foi você, clique no link abaixo ou copie e cole no navegador:\n\n<LINK_AQUI>\n\nSe não foi você, ignore este e-mail.";
+            emailService.sendEmail(email, subject, text);
+        }
     }
 
 } 
