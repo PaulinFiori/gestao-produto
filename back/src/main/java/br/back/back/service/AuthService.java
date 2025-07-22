@@ -3,15 +3,23 @@ package br.back.back.service;
 import br.back.back.repository.UsuarioRepository;
 import br.back.back.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class AuthService {
 
     @Autowired
     private EmailService emailService;
+    
+    @Value("${app.frontend.url:http://localhost:4200}")
+    private String frontendUrl;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -43,9 +51,23 @@ public class AuthService {
     public void recoverPassword(String email) {
         Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
         if (usuario != null) {
-            String subject = "Recuperação de Senha";
-            String text = "Olá,\n\nRecebemos uma solicitação para redefinir sua senha. Se foi você, clique no link abaixo ou copie e cole no navegador:\n\n<LINK_AQUI>\n\nSe não foi você, ignore este e-mail.";
-            emailService.sendEmail(email, subject, text);
+            // Gerar token único para recuperação
+            String resetToken = UUID.randomUUID().toString();
+            
+            // TODO: Salvar token no banco com expiração (24h)
+            // passwordResetTokenRepository.save(new PasswordResetToken(usuario, resetToken));
+            
+            // Criar link de recuperação
+            String resetLink = frontendUrl + "/auth/reset-password?token=" + resetToken;
+            
+            // Preparar dados para o template
+            Map<String, Object> templateModel = new HashMap<>();
+            templateModel.put("userName", usuario.getNome());
+            templateModel.put("resetLink", resetLink);
+            
+            // Enviar email com template
+            String subject = "Recuperação de Senha - Gestão de Produto";
+            emailService.sendTemplateEmail(email, subject, "emails/recover-password.ftl", templateModel);
         }
     }
 
