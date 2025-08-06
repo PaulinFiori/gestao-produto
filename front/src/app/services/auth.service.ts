@@ -44,6 +44,14 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/auth/recover-password`, { email });
   }
 
+  validateResetToken(token: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/auth/validate-reset-token`, { token });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/auth/reset-password`, { token, newPassword });
+  }
+
   refreshToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
     const accessToken = this.getToken();

@@ -2,6 +2,8 @@ package br.back.back.controller;
 
 import br.back.back.dto.LoginRequest;
 import br.back.back.dto.RecoverPasswordRequest;
+import br.back.back.dto.ResetPasswordRequest;
+import br.back.back.dto.ValidateTokenRequest;
 import br.back.back.model.Usuario;
 import br.back.back.security.JwtService;
 import br.back.back.security.UserDetailsServiceImpl;
@@ -71,6 +73,54 @@ public class AuthController {
     public ResponseEntity<?> recoverPassword(@RequestBody RecoverPasswordRequest request) {
         authService.recoverPassword(request.getEmail());
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/validate-reset-token")
+    public ResponseEntity<?> validateResetToken(@RequestBody ValidateTokenRequest request) {
+        boolean isValid = authService.isValidResetToken(request.getToken());
+        
+        if (isValid) {
+            return ResponseEntity.ok(Map.of(
+                "valid", true,
+                "message", "Token válido"
+            ));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of(
+                "valid", false,
+                "message", "Token inválido ou expirado"
+            ));
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest request) {
+        if (request.getNewPassword() == null || request.getNewPassword().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "message", "Nova senha é obrigatória"
+            ));
+        }
+        
+        if (request.getNewPassword().length() < 6) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "message", "Nova senha deve ter pelo menos 6 caracteres"
+            ));
+        }
+        
+        boolean success = authService.resetPassword(request.getToken(), request.getNewPassword());
+        
+        if (success) {
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "Senha redefinida com sucesso"
+            ));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "message", "Token inválido ou expirado"
+            ));
+        }
     }
 
     @PostMapping("/refresh-token")

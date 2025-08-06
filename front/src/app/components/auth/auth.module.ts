@@ -13,12 +13,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RecoverPasswordDialogComponent } from './recover-password-dialog/recover-password-dialog.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
-    RecoverPasswordDialogComponent
+    RecoverPasswordDialogComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { RecoverPasswordDialogComponent } from './recover-password-dialog/recove
   exports: [
     LoginComponent,
     RegisterComponent,
-    RecoverPasswordDialogComponent
+    RecoverPasswordDialogComponent,
+    ResetPasswordComponent
   ]
 })
 export class AuthModule { }

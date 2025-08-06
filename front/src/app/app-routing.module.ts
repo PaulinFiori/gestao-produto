@@ -7,6 +7,7 @@ import { ProdutosComponent } from './components/produtos/produtos.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
+import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PerfilGuard } from './guards/perfil.guard';
 import { BlankLayoutComponent } from './components/common/layouts/blankLayout.component';
@@ -29,6 +30,10 @@ const routes: Routes = [
       {
         path: "cadastre",
         component: RegisterComponent
+      },
+      {
+        path: "auth/reset-password",
+        component: ResetPasswordComponent
       }
       ]
   },

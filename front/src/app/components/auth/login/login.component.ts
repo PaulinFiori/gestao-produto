@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
     dialogRef.afterClosed().subscribe((email: string) => {
       if (email) {
         this.isLoadingRecover = true;
-        const { email } = this.loginForm.value;
 
         this.authService.recoverPassword(email).subscribe({
           next: () => {
